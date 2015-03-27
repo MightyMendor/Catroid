@@ -86,6 +86,7 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	public void disconnect() {
 		if (mindstormsConnection.isConnected()) {
 			this.stopAllMovements();
+			sensorService.deactivateAllSensors(mindstormsConnection);
 			sensorService.destroy();
 			mindstormsConnection.disconnect();
 		}
@@ -242,7 +243,7 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 		motorB = new NXTMotor(1, mindstormsConnection);
 		motorC = new NXTMotor(2, mindstormsConnection);
 
-		assignSensorsToPorts();
+
 
 		isInitialized = true;
 	}
@@ -259,16 +260,21 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	@Override
 	public void start() {
 		initialise();
+
+		assignSensorsToPorts();
+
 		sensorService.resumeSensorUpdate();
 	}
 
 	@Override
-	public void pause() {
+	public void pause()
+	{
 		stopAllMovements();
 		sensorService.pauseSensorUpdate();
 	}
 
 	@Override
 	public void destroy() {
+		sensorService.deactivateAllSensors(mindstormsConnection);
 	}
 }
