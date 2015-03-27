@@ -32,6 +32,7 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensorActive;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorMode;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorType;
@@ -115,6 +116,22 @@ public class SensorTests extends AndroidTestCase {
 		assertEquals("Wrong CommandByte", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
 		assertEquals("Wrong port", PORT_NR_2, command[2]);
 		assertEquals("Wrong sensor type", NXTSensorType.LIGHT_INACTIVE.getByte(), command[3]);
+		assertEquals("Wrong sensor mode", NXTSensorMode.Percent.getByte(), command[4]);
+		assertEquals("Wrong command length", 5, command.length);
+	}
+
+	public void testSetSensorModeLightActive() {
+		NXTSensor sensor = new NXTLightSensorActive(PORT_NR_2, mindstormsConnection);
+
+		sensor.getValue();
+
+		byte[] command = logger.getNextSentMessage(0, 2);
+		assertNotNull("No command", command);
+
+		assertEquals("Incorrect Header", DIRECT_COMMAND_WITH_REPLY, command[0]);
+		assertEquals("Wrong CommandByte", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
+		assertEquals("Wrong port", PORT_NR_2, command[2]);
+		assertEquals("Wrong sensor type", NXTSensorType.LIGHT_ACTIVE.getByte(), command[3]);
 		assertEquals("Wrong sensor mode", NXTSensorMode.Percent.getByte(), command[4]);
 		assertEquals("Wrong command length", 5, command.length);
 	}
