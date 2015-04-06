@@ -88,6 +88,8 @@ public class PreStageActivity extends BaseActivity {
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
 
+		Log.d("juc", "PreStageActivity: requiredResources = " + requiredResources);
+
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -95,7 +97,13 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+			Log.d("juc", "PreStageActivity | connectBTDevice for NXT");
 			connectBTDevice(BluetoothDevice.LEGO_NXT, false);
+		}
+
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_EV3) > 0) {
+			Log.d("juc", "PreStageActivity | connectBTDevice for EV3");
+			connectBTDevice(BluetoothDevice.LEGO_EV3, false);
 		}
 
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {

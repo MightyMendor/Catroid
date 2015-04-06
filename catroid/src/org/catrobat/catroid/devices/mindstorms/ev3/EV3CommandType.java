@@ -20,36 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth;
 
-import android.content.Context;
+package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEv3Impl;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
 
-public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
+public enum EV3CommandType {
+	DIRECT_COMMAND_REPLY(0x00),
+	DIRECT_COMMAND_NO_REPLY(0x80),
+	SYSTEM_COMMAND_REPLY(0x01),
+	SYSTEM_COMMAND_NO_REPLY(0x81);
 
-	@Override
-	public <T extends BluetoothDevice> BluetoothDevice createDevice(Class<T> service, Context applicationContext) {
+	private int commandTypeValue;
 
-		if (service == BluetoothDevice.LEGO_NXT) {
-			return new LegoNXTImpl(applicationContext);
-		}
+	private EV3CommandType(int commandTypeValue) {
+		this.commandTypeValue = commandTypeValue;
+	}
 
-		if (service == BluetoothDevice.LEGO_EV3) {
-			return new LegoEv3Impl(applicationContext);
-		}
-
-//        if (service == BTDeviceService.ALBERT) {
-//            return new Albert();
-//        }
-
-//        if (service == BTDeviceService.ARDUINO) {
-//            return new Arduino();
-//        }
-
-		return null; // may throw exception
+	public byte getByte() {
+		return (byte) commandTypeValue;
 	}
 }

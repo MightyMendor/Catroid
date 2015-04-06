@@ -183,6 +183,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				if (nxt != null) {
 					return Double.valueOf(nxt.getSensorValue(sensor));
 				}
+
+			case EV3_SENSOR_1:
+			case EV3_SENSOR_2:
+			case EV3_SENSOR_3:
+			case EV3_SENSOR_4:
+
+				//TODO: change to ev3
+
+				LegoNXT nxt2 = btService.getDevice(BluetoothDevice.LEGO_NXT);
+				if (nxt2 != null) {
+					return Double.valueOf(nxt2.getSensorValue(sensor));
+				}
+
 		}
 		return 0d;
 	}

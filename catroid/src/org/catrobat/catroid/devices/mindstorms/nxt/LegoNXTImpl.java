@@ -59,6 +59,7 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	private NXTSensorService sensorService;
 
 	public LegoNXTImpl(Context applicationContext) {
+		Log.d("juc", "LegoNXTImpl | constructor");
 		this.context = applicationContext;
 	}
 
@@ -106,6 +107,8 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 
 		int frequencyInHz = 200;
 		int durationInMs = 1;
+
+
 
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.PLAY_TONE, false);
 		command.append((byte)(frequencyInHz & 0x00FF));

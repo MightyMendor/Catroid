@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +157,12 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
+			Log.d("juc", "addCategory for nxt");
+		}
+
+		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, false)) {
+			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
+			Log.d("juc", "addCategory for ev3");
 		}
 
 		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) {

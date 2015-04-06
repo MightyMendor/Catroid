@@ -20,36 +20,45 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth;
 
-import android.content.Context;
+package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEv3Impl;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
+import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
+import org.catrobat.catroid.devices.mindstorms.MindstormsMotor;
 
-public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
+
+public class EV3Motor implements MindstormsMotor {
+
+	private static final String TAG = EV3Motor.class.getSimpleName();
+
+	private int port;
+	private MindstormsConnection connection;
+
+	public EV3Motor(int port, MindstormsConnection connection) {
+		this.port = port;
+		this.connection = connection;
+	}
 
 	@Override
-	public <T extends BluetoothDevice> BluetoothDevice createDevice(Class<T> service, Context applicationContext) {
+	public void stop() {
 
-		if (service == BluetoothDevice.LEGO_NXT) {
-			return new LegoNXTImpl(applicationContext);
-		}
-
-		if (service == BluetoothDevice.LEGO_EV3) {
-			return new LegoEv3Impl(applicationContext);
-		}
-
-//        if (service == BTDeviceService.ALBERT) {
-//            return new Albert();
-//        }
-
-//        if (service == BTDeviceService.ARDUINO) {
-//            return new Arduino();
-//        }
-
-		return null; // may throw exception
 	}
+
+	@Override
+	public void move(int speed) {
+		move(speed, 0, false);
+	}
+
+	@Override
+	public void move(int speed, int degrees) {
+
+	}
+
+	@Override
+	public void move(int speed, int degrees, boolean reply) {
+
+	}
+
+
+
 }

@@ -190,6 +190,14 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static LegoEv3PlayToneAction legoEv3PlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds) {
+		LegoEv3PlayToneAction action = action(LegoEv3PlayToneAction.class);
+		action.setHertz(hertz);
+		action.setSprite(sprite);
+		action.setDurationInSeconds(durationInSeconds);
+		return action;
+	}
+
 	public static MoveNStepsAction moveNSteps(Sprite sprite, Formula steps) {
 		MoveNStepsAction action = action(MoveNStepsAction.class);
 		action.setSprite(sprite);
