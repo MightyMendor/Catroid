@@ -98,6 +98,10 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.LEGO_NXT, false);
 		}
 
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_EV3) > 0) {
+			connectBTDevice(BluetoothDevice.LEGO_EV3, false);
+		}
+
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
 			droneInitializer = getDroneInitializer();
 			droneInitializer.initialise();

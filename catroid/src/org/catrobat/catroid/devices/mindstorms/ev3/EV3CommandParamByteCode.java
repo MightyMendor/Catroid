@@ -20,36 +20,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth;
 
-import android.content.Context;
+package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
 
-public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
+public enum EV3CommandParamByteCode {
+	PARAM_FORMAT_SHORT(0x00), PARAM_FORMAT_LONG(0x80),
 
-	@Override
-	public <T extends BluetoothDevice> BluetoothDevice createDevice(Class<T> service, Context applicationContext) {
+	PARAM_TYPE_CONSTANT(0x00), PARAM_TYPE_VARIABLE(0x40),
 
-		if (service == BluetoothDevice.LEGO_NXT) {
-			return new LegoNXTImpl(applicationContext);
-		}
+	PARAM_CONST_TYPE_VALUE(0x00), PARAM_CONST_TYPE_LABEL(0x20),
 
-		if (service == BluetoothDevice.LEGO_EV3) {
-			return new LegoEV3Impl(applicationContext);
-		}
+	PARAM_VARIABLE_SCOPE_LOCAL(0x00), PARAM_VARIABLE_SCOPE_GLOBAL(0x20),
 
-//        if (service == BTDeviceService.ALBERT) {
-//            return new Albert();
-//        }
+	PARAM_FOLLOW_ONE_BYTE(0x01), PARAM_FOLLOW_TWO_BYTE(0x02),
+	PARAM_FOLLOW_FOUR_BYTE(0x03),
+	PARAM_FOLLOW_TERMINATED(0x00), PARAM_FOLLOW_TERMINATED2(0x04);
 
-//        if (service == BTDeviceService.ARDUINO) {
-//            return new Arduino();
-//        }
 
-		return null; // may throw exception
+
+	private int commandParamByteCode;
+
+	private EV3CommandParamByteCode(int commandParamByteCode) {
+		this.commandParamByteCode = commandParamByteCode;
 	}
+
+	public byte getByte() {
+		return (byte) commandParamByteCode;
+	}
+
 }

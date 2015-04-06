@@ -107,6 +107,8 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 		int frequencyInHz = 200;
 		int durationInMs = 1;
 
+
+
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.PLAY_TONE, false);
 		command.append((byte)(frequencyInHz & 0x00FF));
 		command.append((byte)((frequencyInHz & 0xFF00) >> 8));

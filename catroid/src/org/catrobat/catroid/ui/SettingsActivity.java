@@ -42,6 +42,7 @@ import org.catrobat.catroid.R;
 public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
+	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED = "settings_mindstorms_ev3_bricks_enabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
@@ -89,9 +90,15 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
-			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
-			dronePreference.setEnabled(false);
-			screen.removePreference(dronePreference);
+			CheckBoxPreference nxtPreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
+			nxtPreference.setEnabled(false);
+			screen.removePreference(nxtPreference);
+		}
+
+		if (!BuildConfig.FEATURE_LEGO_EV3_ENABLED) {
+			CheckBoxPreference ev3Preference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
+			ev3Preference.setEnabled(false);
+			screen.removePreference(ev3Preference);
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
@@ -112,6 +119,10 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, context);
+	}
+
+	public static boolean isMindstormsEV3SharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, context);
 	}
 
 	public static boolean areTermsOfServiceAgreedPermanently(Context context) {
