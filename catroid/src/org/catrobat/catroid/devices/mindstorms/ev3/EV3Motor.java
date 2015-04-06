@@ -20,29 +20,55 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
 
-import org.catrobat.catroid.devices.arduino.Arduino;
-import org.catrobat.catroid.devices.arduino.phiro.Phiro;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.stage.StageResourceInterface;
+package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import java.util.UUID;
+import org.catrobat.catroid.devices.mindstorms.MindstormsMotor;
 
-public interface BluetoothDevice extends StageResourceInterface {
+public class EV3Motor implements MindstormsMotor {
 
-	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
-	Class<LegoEV3> LEGO_EV3 = LegoEV3.class;
-	Class<Phiro> PHIRO = Phiro.class;
-	Class<Arduino> ARDUINO = Arduino.class;
+	//private static final String TAG = EV3Motor.class.getSimpleName();
 
-	String getName();
-	Class<? extends BluetoothDevice> getDeviceType();
-	void setConnection(BluetoothConnection connection);
-	void disconnect();
+	//private int port;
+	private byte outputField;
 
-	boolean isAlive();
+	public EV3Motor(int port) {
+		//this.port = port;
 
-	UUID getBluetoothDeviceUUID();
+		switch (port) {
+			case 0:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_A_OUT.getByte();
+				break;
+			case 1:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_B_OUT.getByte();
+				break;
+			case 2:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_C_OUT.getByte();
+				break;
+			case 3:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_D_OUT.getByte();
+				break;
+		}
+	}
+
+	@Override
+	public void stop() {
+	}
+
+	@Override
+	public void move(int speed) {
+		move(speed, 0, false);
+	}
+
+	@Override
+	public void move(int speed, int degrees) {
+	}
+
+	@Override
+	public void move(int speed, int degrees, boolean reply) {
+	}
+
+	public byte getOutputField() {
+		return outputField;
+	}
 }
