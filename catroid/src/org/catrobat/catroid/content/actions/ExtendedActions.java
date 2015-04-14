@@ -32,6 +32,8 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SingleMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -158,6 +160,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+
 	public static LegoNxtMotorMoveAction legoNxtMotorAction(Sprite sprite, LegoNxtMotorMoveBrick.Motor motorEnum,
 			Formula speed) {
 		LegoNxtMotorMoveAction action = action(LegoNxtMotorMoveAction.class);
@@ -167,9 +170,47 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static LegoEv3SingleMotorMoveAction legoEv3SingleMotorMove(Sprite sprite,
+			LegoEv3SingleMotorMoveBrick.Motor motorEnum, Formula power, Formula period) {
+		LegoEv3SingleMotorMoveAction action = action(LegoEv3SingleMotorMoveAction.class);
+		action.setSprite(sprite);
+		action.setMotorEnum(motorEnum);
+		action.setPower(power);
+		action.setPeriod(period);
+		return action;
+	}
+
+
+//	public static LegoEv3MotorMoveAction legoEv3MotorAction(Sprite sprite, LegoEv3MotorMoveBrick.Motor motorEnum,
+//			Formula speed) {
+//		LegoEv3MotorMoveAction action = action(LegoEv3MotorMoveAction.class);
+//		action.setMotorEnum(motorEnum);
+//		action.setSprite(sprite);
+//		action.setSpeed(speed);
+//		return action;
+//	}
+
 	public static LegoNxtMotorStopAction legoNxtMotorStop(LegoNxtMotorStopBrick.Motor motorEnum) {
 		LegoNxtMotorStopAction action = action(LegoNxtMotorStopAction.class);
 		action.setMotorEnum(motorEnum);
+		return action;
+	}
+
+	public static LegoEv3MotorStopAction legoEv3MotorStop(LegoEv3MotorStopBrick.Motor motorEnum) {
+		LegoEv3MotorStopAction action = action(LegoEv3MotorStopAction.class);
+		action.setMotorEnum(motorEnum);
+		return action;
+	}
+
+	public static LegoEv3MotorMoveAction legoEv3MotorMove(Sprite sprite, Formula power, Formula step1, Formula step2,
+			Formula step3) {
+		LegoEv3MotorMoveAction action = action(LegoEv3MotorMoveAction.class);
+		action.setSprite(sprite);
+		action.setPower(power);
+		action.setStep1(step1);
+		action.setStep2(step2);
+		action.setStep3(step3);
+
 		return action;
 	}
 
@@ -190,11 +231,12 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoEv3PlayToneAction legoEv3PlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds) {
+	public static LegoEv3PlayToneAction legoEv3PlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds, Formula volumeInPercent) {
 		LegoEv3PlayToneAction action = action(LegoEv3PlayToneAction.class);
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
+		action.setVolumeInPercent(volumeInPercent);
 		return action;
 	}
 

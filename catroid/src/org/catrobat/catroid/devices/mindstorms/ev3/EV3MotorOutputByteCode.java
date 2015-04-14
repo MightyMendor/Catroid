@@ -24,26 +24,17 @@
 package org.catrobat.catroid.devices.mindstorms.ev3;
 
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.devices.mindstorms.Mindstorms;
+public enum EV3MotorOutputByteCode {
+	MOTOR_A_OUT(0x01), MOTOR_B_OUT(0x02), MOTOR_C_OUT(0x04), MOTOR_D_OUT(0x08);
 
-public interface LegoEV3 extends Mindstorms, BluetoothDevice {
+	private int EV3MotorOutputValue;
 
-	void playTone(int frequency, int duration, int volumeInPercent);
+	private EV3MotorOutputByteCode(int EV3MotorOutputValue) {
+		this.EV3MotorOutputValue = EV3MotorOutputValue;
+	}
 
-	EV3Motor getMotorA();
-	EV3Motor getMotorB();
-	EV3Motor getMotorC();
-	EV3Motor getMotorD();
+	public byte getByte() {
+		return (byte) EV3MotorOutputValue;
+	}
 
-	void stopAllMovements();
-
-	public void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake);
-
-	//int getSensorValue(Sensors sensor);
-
-	//MindstormsSensor getSensor1();
-	//MindstormsSensor getSensor2();
-	//MindstormsSensor getSensor3();
-	//MindstormsSensor getSensor4();
 }

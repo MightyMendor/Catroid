@@ -600,6 +600,23 @@
     <string name="ev3_motor_all">All</string>
 
     <string name="ev3_play_tone">EV3 play tone</string>
+    <string name="ev3_tone_volume">Volume</string>
+    <string name="ev3_tone_percent">%</string>
+
+    <string name="ev3_motor_stop">EV3 stop motor</string>
+
+    <string name="ev3_motor_move">EV3 move motor</string>
+    <string name="ev3_motor_power">Power</string>
+    <string name="ev3_motor_power_ramp_up_period">Power ramp up period</string>
+    <string name="ev3_motor_power_constant_period">Power constant period</string>
+    <string name="ev3_motor_power_down_period">Power down period</string>
+    <string name="ev3_motor_rotations">Rotations</string>
+    <string name="ev3_motor_time_in_seconds">Seconds</string>
+    <string name="ev3_motor_degree">Degree</string>
+    <string name="ev3_motor_brake">Brake enabled</string>
+    <string name="ev3_motor_move_period">Period</string>
+    <string name="ev3_percents">%</string>
+    <string name="ev3_seconds">Seconds</string>
 
     <!--  -->
 

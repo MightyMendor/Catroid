@@ -40,3 +40,4 @@ public enum EV3CommandType {
 		return (byte) commandTypeValue;
 	}
 }
+

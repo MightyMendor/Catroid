@@ -31,69 +31,87 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.LegoEv3SingleMotorMoveBrick.Motor;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class LegoEv3PlayToneAction extends TemporalAction {
-
-	private Formula hertz;
-	private Formula durationInSeconds;
-	private Formula volumeInPercent;
-	private Sprite sprite;
+public class LegoEv3SingleMotorMoveAction extends TemporalAction {
+	private static final int MIN_POWER = -100;
+	private static final int MAX_POWER = 100;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
+	private Motor motorEnum;
+	private Formula power;
+	private Formula period;
+	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
-		int hertzInterpretation;
-		int durationInterpretation;
-		int volumeInterpretation;
+		int powerValue;
+		int periodValue;
 
 		try {
-			hertzInterpretation = hertz.interpretInteger(sprite);
-		} catch (InterpretationException interpretationException) {
-			hertzInterpretation = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			powerValue = power.interpretInteger(sprite);
+        } catch (InterpretationException interpretationException) {
+			powerValue = 0;
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+        }
+
+		if (powerValue < MIN_POWER) {
+			powerValue = MIN_POWER;
+		} else if (powerValue > MAX_POWER) {
+			powerValue = MAX_POWER;
 		}
 
 		try {
-			durationInterpretation = durationInSeconds.interpretInteger(sprite);
+			periodValue = period.interpretInteger(sprite);
 		} catch (InterpretationException interpretationException) {
-			durationInterpretation = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-
-		try {
-			volumeInterpretation = volumeInPercent.interpretInteger(sprite);
-		} catch (InterpretationException interpretationException) {
-			volumeInterpretation = 0;
+			periodValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
 		LegoEV3 ev3 = btService.getDevice(BluetoothDevice.LEGO_EV3);
 		if (ev3 == null) {
-
-			Log.d("juc", "LegoEv3PlayToneAction | ev3 ==null");
 			return;
 		}
 
-		Log.d("juc", "LegoEv3PlayToneAction | playTone params herz=" + hertzInterpretation + " | duration=" + durationInterpretation + " | volume= " + volumeInterpretation);
+		byte outputField = (byte) 0x00;
 
-		ev3.playTone(hertzInterpretation, durationInterpretation * 1000, volumeInterpretation);
+		switch (motorEnum) {
+			case MOTOR_A:
+				outputField = (byte) 0x01;
+				Log.d("juc", "SingleMotorMoveAction update | Motor A");
+				break;
+			case MOTOR_B:
+				outputField = (byte) 0x02;
+				Log.d("juc", "SingleMotorMoveAction update | Motor B");
+				break;
+			case MOTOR_C:
+				outputField = (byte) 0x04;
+				Log.d("juc", "SingleMotorMoveAction update | Motor C");
+				break;
+			case MOTOR_D:
+				outputField = (byte) 0x08;
+				Log.d("juc", "SingleMotorMoveAction update | Motor D");
+				break;
+		}
+
+		ev3.moveMotorTime(outputField, 0, powerValue, 0, periodValue * 1000, 0, true);
+
 	}
 
-	public void setHertz(Formula hertz) {
-		this.hertz = hertz;
+	public void setMotorEnum(Motor motorEnum) {
+		this.motorEnum = motorEnum;
 	}
 
-	public void setDurationInSeconds(Formula durationInSeconds) {
-		this.durationInSeconds = durationInSeconds;
+	public void setPower(Formula power) {
+		this.power = power;
 	}
 
-	public void setVolumeInPercent(Formula volumeInPercent) {
-		this.volumeInPercent = volumeInPercent;
+	public void setPeriod(Formula period) {
+		this.period = period;
 	}
 
 	public void setSprite(Sprite sprite) {

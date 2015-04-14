@@ -32,11 +32,27 @@ public class EV3Motor implements MindstormsMotor {
 	private static final String TAG = EV3Motor.class.getSimpleName();
 
 	private int port;
+	private byte outputField;
 	private MindstormsConnection connection;
 
 	public EV3Motor(int port, MindstormsConnection connection) {
 		this.port = port;
 		this.connection = connection;
+
+		switch(port) {
+			case 0:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_A_OUT.getByte();
+				break;
+			case 1:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_B_OUT.getByte();
+				break;
+			case 2:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_C_OUT.getByte();
+				break;
+			case 3:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_D_OUT.getByte();
+				break;
+		}
 	}
 
 	@Override
@@ -59,6 +75,8 @@ public class EV3Motor implements MindstormsMotor {
 
 	}
 
-
+	public byte getOutputField() {
+		return outputField;
+	}
 
 }

@@ -98,9 +98,6 @@ public class LegoEv3Impl implements LegoEV3{
 			frequencyInHz = 250;
 		}
 
-		if (volumeInPercent <= 0) {
-			return;
-		}
 		else if (volumeInPercent > 100) {
 			volumeInPercent = 100;
 		}
@@ -110,11 +107,38 @@ public class LegoEv3Impl implements LegoEV3{
 
 		command.append((byte) 0x01); //cmd Play_TONE. TODO: enum?
 
+		//Don't know why this is handled as long Param-Format not as short (source example 4.2.5 Lego EV3 Communication Developer Kit)
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte()));
 		command.append((byte) (volumeInPercent & 0xFF));
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
 		command.append((byte) (frequencyInHz & 0x00FF));
 		command.append((byte) ((frequencyInHz & 0xFF00) >> 8));
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
 		command.append((byte) (durationInMs & 0x00FF));
 		command.append((byte) ((durationInMs & 0xFF00) >> 8));
+
+
+		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		// hard coded example from lego documentation:
+		// 01810282E80382E803
+
+//		command.append((byte) 0x01);
+//
+//		command.append((byte) 0x81);
+//		command.append((byte) 0x02); // volume lvl
+//
+//		command.append((byte) 0x82);
+//		command.append((byte) 0xE8); // freq 1000
+//		command.append((byte) 0x03); // freq 1000
+//
+//		command.append((byte) 0x82);
+//		command.append((byte) 0xE8); // duration 1000
+//		command.append((byte) 0x03); // duration 1000
+
+		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 		Log.d("juc", "LegoEv3Impl | playTone | command = " + command.toHexString(command));
 
@@ -165,6 +189,107 @@ public class LegoEv3Impl implements LegoEV3{
 	}
 
 
+	public void moveMotorStepsSpeed(EV3Motor motor, int chainLayer, int speed, int step1Tacho, int step2Techo, int step3Techo, boolean brake) {
+
+		byte outputField = motor.getOutputField();
+		moveMotorStepsSpeed(outputField, chainLayer, speed, step1Tacho, step2Techo, step3Techo, brake);
+	}
+
+	public void moveMotorStepsSpeed(EV3Motor motor, EV3Motor motor2, int chainLayer, int speed, int step1Tacho, int step2Techo, int step3Techo, boolean brake) {
+
+		byte outputField = (byte) (motor.getOutputField() & motor2.getOutputField());
+		moveMotorStepsSpeed(outputField, chainLayer, speed, step1Tacho, step2Techo, step3Techo, brake);
+	}
+
+	public void moveMotorStepsSpeed(EV3Motor motor, EV3Motor motor2, EV3Motor motor3, int chainLayer, int speed, int step1Tacho, int step2Techo, int step3Techo, boolean brake) {
+
+		byte outputField = (byte) (motor.getOutputField() & motor2.getOutputField() & motor3.getOutputField());
+		moveMotorStepsSpeed(outputField, chainLayer, speed, step1Tacho, step2Techo, step3Techo, brake);
+	}
+
+//	public void moveAllMotorStepsSpeed(int)
+
+	public void moveMotorStepsSpeed(byte outputField, int chainLayer, int speed, int step1Tacho, int step2Tacho, int step3Tacho, boolean brake) {
+
+		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_STEP_SPEED);
+		incCommandCounter();
+
+		command.append((byte) chainLayer);
+
+		command.append(outputField);
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte()));
+		command.append((byte) (speed & 0xFF));
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
+		command.append((byte) (step1Tacho & 0x00FF));
+		command.append((byte) ((step1Tacho & 0xFF00) >> 8));
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
+		command.append((byte) (step2Tacho & 0x00FF));
+		command.append((byte) ((step2Tacho & 0xFF00) >> 8));
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
+		command.append((byte) (step3Tacho & 0x00FF));
+		command.append((byte) ((step3Tacho & 0xFF00) >> 8));
+
+		// I don't know why this parameter is just appended without control-byte in between... source : example from Lego Ev3 Communication Dev Kit 4.2.2
+		command.append((byte) (brake ? 0x01 : 0x00) );
+
+		Log.d("juc", "LegoEv3Impl | move Motor Step Speed | command = " + command.toHexString(command));
+
+		try {
+			mindstormsConnection.send(command);
+		}
+		catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
+
+	}
+
+	public void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake) {
+
+		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_TIME_POWER);
+		incCommandCounter();
+
+		command.append((byte) chainLayer);
+
+		command.append(outputField);
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte()));
+		command.append((byte) (power & 0xFF));
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
+		command.append((byte) (step1TimeInMs & 0x00FF));
+		command.append((byte) ((step1TimeInMs & 0xFF00) >> 8));
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
+		command.append((byte) (step2TimeInMs & 0x00FF));
+		command.append((byte) ((step2TimeInMs & 0xFF00) >> 8));
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
+		command.append((byte) (step3TimeInMs & 0x00FF));
+		command.append((byte) ((step3TimeInMs & 0xFF00) >> 8));
+
+		// I don't know why this parameter is just appended without control-byte in between... source : example from Lego Ev3 Communication Dev Kit 4.2.2
+		command.append((byte) (brake ? 0x01 : 0x00) );
+
+		Log.d("juc", "LegoEv3Impl | move Motor Step Speed | command = " + command.toHexString(command));
+
+		try {
+			mindstormsConnection.send(command);
+		}
+		catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
+
+
+	}
+
+	public void moveMotorTime(int port, int chainLayer, int speed, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake) {
+
+	}
+
 	@Override
 	public synchronized void initialise() {
 
@@ -176,10 +301,10 @@ public class LegoEv3Impl implements LegoEV3{
 
 		mindstormsConnection.init();
 
-		//motorA = new EV3Motor(0, mindstormsConnection);
-		//motorB = new EV3Motor(1, mindstormsConnection);
-		//motorC = new EV3Motor(2, mindstormsConnection);
-		//motorD = new EV3Motor(3, mindstormsConnection);
+		motorA = new EV3Motor(0, mindstormsConnection);
+		motorB = new EV3Motor(1, mindstormsConnection);
+		motorC = new EV3Motor(2, mindstormsConnection);
+		motorD = new EV3Motor(3, mindstormsConnection);
 
 		// TODO: Sensor Init
 		//assignSensorsToPorts();

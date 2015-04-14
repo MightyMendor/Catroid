@@ -26,7 +26,11 @@ package org.catrobat.catroid.devices.mindstorms.ev3;
 import android.util.SparseArray;
 
 public enum EV3CommandOpCode {
-	OP_SOUND(0x94), OP_SOUND_TEST(0x95);
+	OP_SOUND(0x94), OP_SOUND_TEST(0x95),
+
+	OP_OUTPUT_STEP_SPEED(0xAE), OP_OUTPUT_STEP_POWER(0xAC), OP_OUTPUT_TIME_SPEED(0xAF), OP_OUTPUT_TIME_POWER(0xAD),
+
+	OP_OUTPUT_STOP(0xA3);
 
 
 

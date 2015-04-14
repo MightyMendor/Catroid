@@ -24,26 +24,29 @@
 package org.catrobat.catroid.devices.mindstorms.ev3;
 
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.devices.mindstorms.Mindstorms;
+public enum EV3CommandParamByteCode {
+	PARAM_FORMAT_SHORT(0x00), PARAM_FORMAT_LONG(0x80),
 
-public interface LegoEV3 extends Mindstorms, BluetoothDevice {
+	PARAM_TYPE_CONSTANT(0x00), PARAM_TYPE_VARIABLE(0x40),
 
-	void playTone(int frequency, int duration, int volumeInPercent);
+	PARAM_CONST_TYPE_VALUE(0x00), PARAM_CONST_TYPE_LABEL(0x20),
 
-	EV3Motor getMotorA();
-	EV3Motor getMotorB();
-	EV3Motor getMotorC();
-	EV3Motor getMotorD();
+	PARAM_VARIABLE_SCOPE_LOCAL(0x00), PARAM_VARIABLE_SCOPE_GLOBAL(0x20),
 
-	void stopAllMovements();
+	PARAM_FOLLOW_ONE_BYTE(0x01), PARAM_FOLLOW_TWO_BYTE(0x02),
+	PARAM_FOLLOW_FOUR_BYTE(0x03),
+	PARAM_FOLLOW_TERMINATED(0x00), PARAM_FOLLOW_TERMINATED2(0x04);
 
-	public void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake);
 
-	//int getSensorValue(Sensors sensor);
 
-	//MindstormsSensor getSensor1();
-	//MindstormsSensor getSensor2();
-	//MindstormsSensor getSensor3();
-	//MindstormsSensor getSensor4();
+	private int commandParamByteCode;
+
+	private EV3CommandParamByteCode(int commandParamByteCode) {
+		this.commandParamByteCode = commandParamByteCode;
+	}
+
+	public byte getByte() {
+		return (byte) commandParamByteCode;
+	}
+
 }

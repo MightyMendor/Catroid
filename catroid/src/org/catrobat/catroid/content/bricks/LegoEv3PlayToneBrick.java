@@ -54,30 +54,37 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 	private transient TextView editFreq;
 
 	public LegoEv3PlayToneBrick() {
-		//TODO: add volume
-		addAllowedBrickField(BrickField.LEGO_NXT_FREQUENCY);
-		addAllowedBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS);
+		addAllowedBrickField(BrickField.LEGO_EV3_FREQUENCY);
+		addAllowedBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS);
+		addAllowedBrickField(BrickField.LEGO_EV3_VOLUME);
 	}
 
-	public LegoEv3PlayToneBrick(int frequencyValue, int durationValue) {
-		initializeBrickFields(new Formula(frequencyValue), new Formula(durationValue));
+	public LegoEv3PlayToneBrick(int frequencyValue, int durationValue, int volumeValue) {
+		initializeBrickFields(new Formula(frequencyValue), new Formula(durationValue), new Formula(volumeValue));
 	}
 
-	public LegoEv3PlayToneBrick(Formula frequencyFormula, Formula durationFormula) {
-		initializeBrickFields(frequencyFormula, durationFormula);
+	public LegoEv3PlayToneBrick(Formula frequencyFormula, Formula durationFormula, Formula volumeFormula) {
+		initializeBrickFields(frequencyFormula, durationFormula, volumeFormula);
 	}
 
-	private void initializeBrickFields(Formula frequencyFormula, Formula durationFormula) {
-		addAllowedBrickField(BrickField.LEGO_NXT_FREQUENCY);
-		addAllowedBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS);
-		setFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY, frequencyFormula);
-		setFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS, durationFormula);
+	private void initializeBrickFields(Formula frequencyFormula, Formula durationFormula, Formula volumeFormula) {
+		addAllowedBrickField(BrickField.LEGO_EV3_FREQUENCY);
+		addAllowedBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS);
+		addAllowedBrickField(BrickField.LEGO_EV3_VOLUME);
+		setFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY, frequencyFormula);
+		setFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS, durationFormula);
+
+		Log.d("juc", "ToneBrick initializeBrickFields, setFormulaWithBrickField for volume");
+
+		setFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME, volumeFormula);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		Log.d("juc", "Brick, getRequiredREsources: " + (BLUETOOTH_LEGO_EV3 | getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).getRequiredResources() | getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).getRequiredResources()));
-		return BLUETOOTH_LEGO_EV3 | getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).getRequiredResources() | getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).getRequiredResources();
+		Log.d("juc", "ToneBrick, getRequiredREsources: " + (BLUETOOTH_LEGO_EV3 | getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY).getRequiredResources() | getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS).getRequiredResources()));
+		return BLUETOOTH_LEGO_EV3 | getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY).getRequiredResources()
+				| getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS).getRequiredResources()
+				| getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME).getRequiredResources();
 	}
 
 	@Override
@@ -87,6 +94,8 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 		textDuration.setText(String.valueOf(BrickValues.LEGO_DURATION));
 		TextView textFreq = (TextView) prototypeView.findViewById(R.id.ev3_tone_freq_text_view);
 		textFreq.setText(String.valueOf(BrickValues.LEGO_FREQUENCY));
+		TextView textVol = (TextView) prototypeView.findViewById(R.id.ev3_tone_volume_edit_text);
+		textVol.setText(String.valueOf(BrickValues.LEGO_VOLUME));
 		return prototypeView;
 	}
 
@@ -114,24 +123,35 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 
 		TextView textDuration = (TextView) view.findViewById(R.id.ev3_tone_duration_text_view);
 		TextView editDuration = (TextView) view.findViewById(R.id.ev3_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)
+		getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS)
 				.setTextFieldId(R.id.ev3_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).refreshTextField(view);
+		getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS).refreshTextField(view);
 
 		textDuration.setVisibility(View.GONE);
 		editDuration.setVisibility(View.VISIBLE);
 
 		editDuration.setOnClickListener(this);
 
+		//TODO: why is editFreq not local as editDuration?
 		TextView textFreq = (TextView) view.findViewById(R.id.ev3_tone_freq_text_view);
 		editFreq = (TextView) view.findViewById(R.id.ev3_tone_freq_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).setTextFieldId(R.id.ev3_tone_freq_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).refreshTextField(view);
+		getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY).setTextFieldId(R.id.ev3_tone_freq_edit_text);
+		getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY).refreshTextField(view);
 
 		textFreq.setVisibility(View.GONE);
 		editFreq.setVisibility(View.VISIBLE);
 
 		editFreq.setOnClickListener(this);
+
+		TextView textVol= (TextView) view.findViewById(R.id.ev3_tone_volume_text_view);
+		TextView editVol = (TextView) view.findViewById(R.id.ev3_tone_volume_edit_text);
+		getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME).setTextFieldId(R.id.ev3_tone_volume_edit_text);
+		getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME).refreshTextField(view);
+
+		textVol.setVisibility(View.GONE);
+		editVol.setVisibility(View.VISIBLE);
+
+		editVol.setOnClickListener(this);
 
 		return view;
 	}
@@ -143,11 +163,14 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 		}
 		switch (view.getId()) {
 			case R.id.ev3_tone_freq_edit_text:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY));
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY));
 				break;
 			case R.id.ev3_tone_duration_edit_text:
 				FormulaEditorFragment.showFragment(view, this,
-						getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS));
+						getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS));
+				break;
+			case R.id.ev3_tone_volume_edit_text:
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME));
 				break;
 		}
 	}
@@ -167,9 +190,13 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 			TextView textLegoPlayToneSeconds = (TextView) view.findViewById(R.id.brick_ev3_play_tone_seconds);
 			TextView textLegoPlayToneFrequency = (TextView) view.findViewById(R.id.brick_ev3_play_tone_frequency);
 			TextView textLegoPlayToneOz = (TextView) view.findViewById(R.id.brick_ev3_play_tone_hundred_hz);
+			TextView textLegoPlayToneVolume = (TextView) view.findViewById(R.id.brick_ev3_play_tone_volume);
+			TextView textLegoPlayTonePercent = (TextView) view.findViewById(R.id.brick_ev3_play_tone_percentage);
 
 			TextView editLegoDuration = (TextView) view.findViewById(R.id.ev3_tone_duration_edit_text);
 			TextView editLegoFrequency = (TextView) view.findViewById(R.id.ev3_tone_freq_edit_text);
+			TextView editLegoVolume = (TextView) view.findViewById(R.id.ev3_tone_volume_edit_text);
+
 			textLegoPlayToneLabel.setTextColor(textLegoPlayToneLabel.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneDuration.setTextColor(textLegoPlayToneDuration.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneDurationTextView.setTextColor(textLegoPlayToneDurationTextView.getTextColors().withAlpha(
@@ -177,11 +204,15 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 			textLegoPlayToneSeconds.setTextColor(textLegoPlayToneSeconds.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneFrequency.setTextColor(textLegoPlayToneFrequency.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneOz.setTextColor(textLegoPlayToneOz.getTextColors().withAlpha(alphaValue));
+			textLegoPlayToneVolume.setTextColor(textLegoPlayToneVolume.getTextColors().withAlpha(alphaValue));
+			textLegoPlayTonePercent.setTextColor(textLegoPlayTonePercent.getTextColors().withAlpha(alphaValue));
 
 			editLegoFrequency.setTextColor(editLegoFrequency.getTextColors().withAlpha(alphaValue));
 			editLegoFrequency.getBackground().setAlpha(alphaValue);
 			editLegoDuration.setTextColor(editLegoDuration.getTextColors().withAlpha(alphaValue));
 			editLegoDuration.getBackground().setAlpha(alphaValue);
+			editLegoVolume.setTextColor(editLegoVolume.getTextColors().withAlpha(alphaValue));
+			editLegoVolume.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 
@@ -193,8 +224,9 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.legoEv3PlayTone(sprite,
-				getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY),
-				getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)));
+				getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY),
+				getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS),
+				getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME)));
 		return null;
 	}
 }
