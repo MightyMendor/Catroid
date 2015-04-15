@@ -40,6 +40,8 @@ public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 
 	public void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake);
 
+	public void setLed(int ledStatus);
+
 	//int getSensorValue(Sensors sensor);
 
 	//MindstormsSensor getSensor1();

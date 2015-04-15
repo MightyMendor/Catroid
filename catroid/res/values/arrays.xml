@@ -85,6 +85,18 @@
         <item >@string/ev3_motor_c</item >
         <item >@string/ev3_motor_d</item >
     </string-array >
+    <string-array name="ev3_led_status_chooser" >
+        <item >@string/ev3_led_status_off</item>
+        <item >@string/ev3_led_status_green</item>
+        <item >@string/ev3_led_status_red</item>
+        <item >@string/ev3_led_status_orange</item>
+        <item >@string/ev3_led_status_green_flashing</item>
+        <item >@string/ev3_led_status_red_flashing</item>
+        <item >@string/ev3_led_status_orange_flashing</item>
+        <item >@string/ev3_led_status_green_pulse</item>
+        <item >@string/ev3_led_status_red_pulse</item>
+        <item >@string/ev3_led_status_orange_pulse</item>
+    </string-array>
 
     <string-array name="ev3_move_motor_unit_chooser" >
         <item >@string/ev3_motor_time_in_seconds</item>

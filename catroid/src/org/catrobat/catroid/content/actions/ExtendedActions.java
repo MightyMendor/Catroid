@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3SingleMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
@@ -177,6 +178,12 @@ public class ExtendedActions extends Actions {
 		action.setMotorEnum(motorEnum);
 		action.setPower(power);
 		action.setPeriod(period);
+		return action;
+	}
+
+	public static LegoEv3SetLedAction legoEv3SetLed(LegoEv3SetLedBrick.LedStatus ledStatusEnum) {
+		LegoEv3SetLedAction action = action(LegoEv3SetLedAction.class);
+		action.setLedStatusEnum(ledStatusEnum);
 		return action;
 	}
 

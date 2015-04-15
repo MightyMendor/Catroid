@@ -290,6 +290,28 @@ public class LegoEv3Impl implements LegoEV3{
 
 	}
 
+	public void setLed(int ledStatus) {
+
+		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_UI_WRITE);
+		incCommandCounter();
+
+		command.append((byte) 0x1B); //cmd LED TODO: enum?
+
+		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte()));
+
+		command.append((byte) (ledStatus & 0xFF));
+
+		Log.d("juc", "LegoEv3Impl | set Led Status | command = " + command.toHexString(command));
+
+		try {
+			mindstormsConnection.send(command);
+		}
+		catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
+
+	}
+
 	@Override
 	public synchronized void initialise() {
 
