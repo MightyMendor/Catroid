@@ -26,7 +26,7 @@ package org.catrobat.catroid.devices.mindstorms.ev3;
 import android.util.SparseArray;
 
 public enum EV3CommandOpCode {
-	OP_UI_WRITE(0x82),
+	OP_UI_READ(0x81), OP_UI_WRITE(0x82),
 
 	OP_SOUND(0x94), OP_SOUND_TEST(0x95),
 

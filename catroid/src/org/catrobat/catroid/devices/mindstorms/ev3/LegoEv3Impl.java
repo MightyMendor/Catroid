@@ -177,15 +177,32 @@ public class LegoEv3Impl implements LegoEV3{
 	}
 
 	@Override
-	public boolean isAlive() {
-
-		// TODO: implement isAlive
-		return true;
+	public void setConnection(BluetoothConnection btConnection) {
+		this.mindstormsConnection = new MindstormsConnectionImpl(btConnection);
 	}
 
 	@Override
-	public void setConnection(BluetoothConnection btConnection) {
-		this.mindstormsConnection = new MindstormsConnectionImpl(btConnection);
+	public boolean isAlive() {
+		try {
+			sendKeepAlive();
+			return true;
+		} catch (MindstormsException e) {
+			return false;
+		}
+	}
+
+	private void sendKeepAlive() throws MindstormsException {
+
+		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY, 0, 0, EV3CommandOpCode.OP_UI_READ);
+		incCommandCounter();
+
+		command.append((byte) 0x01); //cmd get_vBatt TODO: enum?
+
+
+
+
+
+
 	}
 
 

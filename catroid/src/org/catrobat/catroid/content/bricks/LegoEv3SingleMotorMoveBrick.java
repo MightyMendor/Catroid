@@ -80,6 +80,13 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick implements OnClick
 		initializeBrickFields(powerFormula, durationFormula);
 	}
 
+	protected Object readResolve() {
+		if (motor != null) {
+			motorEnum = Motor.valueOf(motor);
+		}
+		return this;
+	}
+
 	private void initializeBrickFields(Formula powerFormula, Formula durationFormula) {
 		addAllowedBrickField(BrickField.LEGO_EV3_POWER);
 		addAllowedBrickField(BrickField.LEGO_EV3_PERIOD_IN_SECONDS);
@@ -201,6 +208,8 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick implements OnClick
 			}
 
 		});
+
+		Log.d("juc", "SingleMotorMoveBrick | motorEnum = " + motorEnum);
 
 		motorSpinner.setSelection(motorEnum.ordinal());
 

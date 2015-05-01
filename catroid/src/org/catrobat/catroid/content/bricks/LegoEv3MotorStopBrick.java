@@ -43,26 +43,24 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedListener {
+public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
-	private transient LedStatus ledStatusEnum;
-	private String ledStatus;
+	private transient Motor motorEnum;
+	private String motor;
 	private transient AdapterView<?> adapterView;
 
-	public static enum LedStatus {
-		LED_OFF, LED_GREEN, LED_RED, LED_ORANGE,
-		LED_GREEN_FLASHING, LED_RED_FLASHING, LED_ORANGE_FLASHING,
-		LED_GREEN_PULSE, LED_RED_PULSE, LED_ORANGE_PULSE
+	public static enum Motor {
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, ALL_MOTORS
 	}
 
-	public LegoEv3SetLedBrick(LedStatus ledStatus) {
-		this.ledStatusEnum = ledStatus;
-		this.ledStatus = ledStatusEnum.name();
+	public LegoEv3MotorStopBrick(Motor motor) {
+		this.motorEnum = motor;
+		this.motor = motorEnum.name();
 	}
 
 	protected Object readResolve() {
-		if (ledStatus != null) {
-			ledStatusEnum = LedStatus.valueOf(ledStatus);
+		if (motor != null) {
+			motorEnum = Motor.valueOf(motor);
 		}
 		return this;
 	}
@@ -74,30 +72,29 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		LegoEv3SetLedBrick copyBrick = (LegoEv3SetLedBrick) clone();
+		LegoEv3MotorStopBrick copyBrick = (LegoEv3MotorStopBrick) clone();
 		return copyBrick;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_ev3_set_led, null);
+		View prototypeView = View.inflate(context, R.layout.brick_ev3_motor_stop, null);
+		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.ev3_stop_motor_spinner);
+		legoSpinner.setFocusableInTouchMode(false);
+		legoSpinner.setFocusable(false);
 
-		Spinner ledStatusSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ev3_set_led_spinner);
-		ledStatusSpinner.setFocusableInTouchMode(false);
-		ledStatusSpinner.setFocusable(false);
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+				R.array.ev3_stop_motor_chooser, android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		ArrayAdapter<CharSequence> ledStatusAdapter = ArrayAdapter.createFromResource(context,
-				R.array.ev3_led_status_chooser, android.R.layout.simple_spinner_item);
-		ledStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		ledStatusSpinner.setAdapter(ledStatusAdapter);
-		ledStatusSpinner.setSelection(ledStatusEnum.ordinal());
+		legoSpinner.setAdapter(motorAdapter);
+		legoSpinner.setSelection(motorEnum.ordinal());
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new LegoEv3SetLedBrick(ledStatusEnum);
+		return new LegoEv3MotorStopBrick(motorEnum);
 	}
 
 	@Override
@@ -108,10 +105,10 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 		if (view == null) {
 			alphaValue = 255;
 		}
-		view = View.inflate(context, R.layout.brick_ev3_set_led, null);
+		view = View.inflate(context, R.layout.brick_ev3_motor_stop, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_ev3_set_led_checkbox);
+		setCheckboxView(R.id.brick_ev3_motor_stop_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -121,30 +118,30 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 			}
 		});
 
-		ArrayAdapter<CharSequence> ledStatusAdapter = ArrayAdapter.createFromResource(context,
-				R.array.ev3_led_status_chooser, android.R.layout.simple_spinner_item);
-		ledStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+				R.array.ev3_stop_motor_chooser, android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner ledStatusSpinner = (Spinner) view.findViewById(R.id.brick_ev3_set_led_spinner);
-		ledStatusSpinner.setOnItemSelectedListener(this);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.ev3_stop_motor_spinner);
+		motorSpinner.setOnItemSelectedListener(this);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			ledStatusSpinner.setClickable(true);
-			ledStatusSpinner.setEnabled(true);
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
 		} else {
-			ledStatusSpinner.setClickable(false);
-			ledStatusSpinner.setEnabled(false);
+			motorSpinner.setClickable(false);
+			motorSpinner.setEnabled(false);
 		}
 
-		ledStatusSpinner.setAdapter(ledStatusAdapter);
-		ledStatusSpinner.setSelection(ledStatusEnum.ordinal());
+		motorSpinner.setAdapter(motorAdapter);
+		motorSpinner.setSelection(motorEnum.ordinal());
 		return view;
 	}
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		ledStatusEnum = LedStatus.values()[position];
-		ledStatus = ledStatusEnum.name();
+		motorEnum = Motor.values()[position];
+		motor = motorEnum.name();
 		adapterView = parent;
 	}
 
@@ -157,16 +154,15 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_ev3_set_led_layout);
+			View layout = view.findViewById(R.id.brick_ev3_motor_stop_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textEv3SetLedLabel = (TextView) view.findViewById(R.id.brick_ev3_set_led_label);
-			textEv3SetLedLabel.setTextColor(textEv3SetLedLabel.getTextColors().withAlpha(alphaValue));
-
-			Spinner ledStatusSpinner = (Spinner) view.findViewById(R.id.brick_ev3_set_led_spinner);
-			ColorStateList color = textEv3SetLedLabel.getTextColors().withAlpha(alphaValue);
-			ledStatusSpinner.getBackground().setAlpha(alphaValue);
+			TextView textLegoMotorStopLabel = (TextView) view.findViewById(R.id.ev3_motor_stop_text_view);
+			textLegoMotorStopLabel.setTextColor(textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue));
+			Spinner motorSpinner = (Spinner) view.findViewById(R.id.ev3_stop_motor_spinner);
+			ColorStateList color = textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue);
+			motorSpinner.getBackground().setAlpha(alphaValue);
 			if (adapterView != null) {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
@@ -180,7 +176,7 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoEv3SetLed(ledStatusEnum));
+		sequence.addAction(ExtendedActions.legoEv3MotorStop(motorEnum));
 		return null;
 	}
 

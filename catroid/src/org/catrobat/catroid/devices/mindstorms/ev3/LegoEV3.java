@@ -29,6 +29,8 @@ import org.catrobat.catroid.devices.mindstorms.Mindstorms;
 
 public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 
+	public boolean isAlive();
+
 	void playTone(int frequency, int duration, int volumeInPercent);
 
 	EV3Motor getMotorA();
