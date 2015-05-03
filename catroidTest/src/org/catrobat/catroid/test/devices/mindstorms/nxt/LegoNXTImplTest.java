@@ -170,15 +170,15 @@ public class LegoNXTImplTest extends AndroidTestCase {
 	public void testCheckDurationOfTone() {
 
 		int inputHz = 13000;
-		int inputDurationInMs = 6000;
+		int inputDurationInS = 6;
 		int expectedDurationInMs = 6000;
 
 		nxt.initialise();
-		nxt.playTone(inputHz, inputDurationInMs);
+		nxt.playTone(inputHz, inputDurationInS);
 
 		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
-		assertEquals("Expected Duration not same as Input Duration", (byte)expectedDurationInMs, setOutputState[4]);
+		assertEquals("Expected Duration not same as Input Duration", (byte) expectedDurationInMs, setOutputState[4]);
 		assertEquals("Expected Duration not same as Input Duration", (byte)(expectedDurationInMs >> 8), setOutputState[5]);
 	}
 
