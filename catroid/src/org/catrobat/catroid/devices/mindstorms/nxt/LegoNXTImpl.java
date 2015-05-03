@@ -248,7 +248,7 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 		motorB = new NXTMotor(1, mindstormsConnection);
 		motorC = new NXTMotor(2, mindstormsConnection);
 
-
+		assignSensorsToPorts();
 
 		isInitialized = true;
 	}
