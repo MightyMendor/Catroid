@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.util.Log;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -32,6 +30,8 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
+
+import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -51,7 +51,7 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 
 	private transient View prototypeView;
 
-	private transient TextView editFreq;
+	//private transient TextView editFreq;
 
 	public LegoEv3PlayToneBrick() {
 		addAllowedBrickField(BrickField.LEGO_EV3_FREQUENCY);
@@ -90,12 +90,16 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_ev3_play_tone, null);
-		TextView textDuration = (TextView) prototypeView.findViewById(R.id.ev3_tone_duration_text_view);
+
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_ev3_tone_duration_prototype_text_view);
 		textDuration.setText(String.valueOf(BrickValues.LEGO_DURATION));
-		TextView textFreq = (TextView) prototypeView.findViewById(R.id.ev3_tone_freq_text_view);
+
+		TextView textFreq = (TextView) prototypeView.findViewById(R.id.brick_ev3_tone_freq_prototype_text_view);
 		textFreq.setText(String.valueOf(BrickValues.LEGO_FREQUENCY));
-		TextView textVol = (TextView) prototypeView.findViewById(R.id.ev3_tone_volume_edit_text);
+
+		TextView textVol = (TextView) prototypeView.findViewById(R.id.brick_ev3_tone_volume_prototype_text_view);
 		textVol.setText(String.valueOf(BrickValues.LEGO_VOLUME));
+
 		return prototypeView;
 	}
 
@@ -121,10 +125,10 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 			}
 		});
 
-		TextView textDuration = (TextView) view.findViewById(R.id.ev3_tone_duration_text_view);
-		TextView editDuration = (TextView) view.findViewById(R.id.ev3_tone_duration_edit_text);
+		TextView textDuration = (TextView) view.findViewById(R.id.brick_ev3_tone_duration_prototype_text_view);
+		TextView editDuration = (TextView) view.findViewById(R.id.brick_ev3_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS)
-				.setTextFieldId(R.id.ev3_tone_duration_edit_text);
+				.setTextFieldId(R.id.brick_ev3_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS).refreshTextField(view);
 
 		textDuration.setVisibility(View.GONE);
@@ -132,10 +136,9 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 
 		editDuration.setOnClickListener(this);
 
-		//TODO: why is editFreq not local as editDuration?
-		TextView textFreq = (TextView) view.findViewById(R.id.ev3_tone_freq_text_view);
-		editFreq = (TextView) view.findViewById(R.id.ev3_tone_freq_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY).setTextFieldId(R.id.ev3_tone_freq_edit_text);
+		TextView textFreq = (TextView) view.findViewById(R.id.brick_ev3_tone_freq_prototype_text_view);
+		TextView editFreq = (TextView) view.findViewById(R.id.brick_ev3_tone_freq_edit_text);
+		getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY).setTextFieldId(R.id.brick_ev3_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY).refreshTextField(view);
 
 		textFreq.setVisibility(View.GONE);
@@ -143,9 +146,9 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 
 		editFreq.setOnClickListener(this);
 
-		TextView textVol= (TextView) view.findViewById(R.id.ev3_tone_volume_text_view);
-		TextView editVol = (TextView) view.findViewById(R.id.ev3_tone_volume_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME).setTextFieldId(R.id.ev3_tone_volume_edit_text);
+		TextView textVol= (TextView) view.findViewById(R.id.brick_ev3_tone_volume_prototype_text_view);
+		TextView editVol = (TextView) view.findViewById(R.id.brick_ev3_tone_volume_edit_text);
+		getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME).setTextFieldId(R.id.brick_ev3_tone_volume_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME).refreshTextField(view);
 
 		textVol.setVisibility(View.GONE);
@@ -162,14 +165,14 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 			return;
 		}
 		switch (view.getId()) {
-			case R.id.ev3_tone_freq_edit_text:
+			case R.id.brick_ev3_tone_freq_edit_text:
 				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY));
 				break;
-			case R.id.ev3_tone_duration_edit_text:
+			case R.id.brick_ev3_tone_duration_edit_text:
 				FormulaEditorFragment.showFragment(view, this,
 						getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS));
 				break;
-			case R.id.ev3_tone_volume_edit_text:
+			case R.id.brick_ev3_tone_volume_edit_text:
 				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME));
 				break;
 		}
@@ -184,26 +187,23 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textLegoPlayToneLabel = (TextView) view.findViewById(R.id.brick_ev3_play_tone_label);
-			TextView textLegoPlayToneDuration = (TextView) view.findViewById(R.id.brick_ev3_play_tone_duration);
-			TextView textLegoPlayToneDurationTextView = (TextView) view.findViewById(R.id.ev3_tone_duration_text_view);
-			TextView textLegoPlayToneSeconds = (TextView) view.findViewById(R.id.brick_ev3_play_tone_seconds);
-			TextView textLegoPlayToneFrequency = (TextView) view.findViewById(R.id.brick_ev3_play_tone_frequency);
-			TextView textLegoPlayToneOz = (TextView) view.findViewById(R.id.brick_ev3_play_tone_hundred_hz);
-			TextView textLegoPlayToneVolume = (TextView) view.findViewById(R.id.brick_ev3_play_tone_volume);
-			TextView textLegoPlayTonePercent = (TextView) view.findViewById(R.id.brick_ev3_play_tone_percentage);
+			TextView textLegoPlayToneLabel = (TextView) view.findViewById(R.id.brick_ev3_tone_label);
+			TextView textLegoPlayToneDuration = (TextView) view.findViewById(R.id.brick_ev3_tone_duration_text);
+			TextView textLegoPlayToneSeconds = (TextView) view.findViewById(R.id.brick_ev3_tone_seconds);
+			TextView textLegoPlayToneFrequency = (TextView) view.findViewById(R.id.brick_ev3_tone_frequency_text);
+			TextView textLegoPlayToneHz = (TextView) view.findViewById(R.id.brick_ev3_tone_hundred_hz);
+			TextView textLegoPlayToneVolume = (TextView) view.findViewById(R.id.brick_ev3_tone_volume_text);
+			TextView textLegoPlayTonePercent = (TextView) view.findViewById(R.id.brick_ev3_tone_percentage);
 
-			TextView editLegoDuration = (TextView) view.findViewById(R.id.ev3_tone_duration_edit_text);
-			TextView editLegoFrequency = (TextView) view.findViewById(R.id.ev3_tone_freq_edit_text);
-			TextView editLegoVolume = (TextView) view.findViewById(R.id.ev3_tone_volume_edit_text);
+			TextView editLegoDuration = (TextView) view.findViewById(R.id.brick_ev3_tone_duration_edit_text);
+			TextView editLegoFrequency = (TextView) view.findViewById(R.id.brick_ev3_tone_freq_edit_text);
+			TextView editLegoVolume = (TextView) view.findViewById(R.id.brick_ev3_tone_volume_edit_text);
 
 			textLegoPlayToneLabel.setTextColor(textLegoPlayToneLabel.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneDuration.setTextColor(textLegoPlayToneDuration.getTextColors().withAlpha(alphaValue));
-			textLegoPlayToneDurationTextView.setTextColor(textLegoPlayToneDurationTextView.getTextColors().withAlpha(
-					alphaValue));
 			textLegoPlayToneSeconds.setTextColor(textLegoPlayToneSeconds.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneFrequency.setTextColor(textLegoPlayToneFrequency.getTextColors().withAlpha(alphaValue));
-			textLegoPlayToneOz.setTextColor(textLegoPlayToneOz.getTextColors().withAlpha(alphaValue));
+			textLegoPlayToneHz.setTextColor(textLegoPlayToneHz.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneVolume.setTextColor(textLegoPlayToneVolume.getTextColors().withAlpha(alphaValue));
 			textLegoPlayTonePercent.setTextColor(textLegoPlayTonePercent.getTextColors().withAlpha(alphaValue));
 

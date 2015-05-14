@@ -98,8 +98,6 @@
                 android:defaultValue="@string/ev3_no_sensor"
                 android:summary="%s"/>
         </PreferenceCategory>
-
-
     </PreferenceScreen>
 
 

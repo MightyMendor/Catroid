@@ -48,7 +48,7 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		int hertzInterpretation;
-		int durationInterpretation;
+		float durationInterpretation;
 		int volumeInterpretation;
 
 		try {
@@ -59,7 +59,7 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 		}
 
 		try {
-			durationInterpretation = durationInSeconds.interpretInteger(sprite);
+			durationInterpretation = durationInSeconds.interpretFloat(sprite);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -81,7 +81,9 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 
 		Log.d("juc", "LegoEv3PlayToneAction | playTone params herz=" + hertzInterpretation + " | duration=" + durationInterpretation + " | volume= " + volumeInterpretation);
 
-		ev3.playTone(hertzInterpretation, durationInterpretation * 1000, volumeInterpretation);
+		int durationInMs = (int) (durationInterpretation * 1000);
+
+		ev3.playTone(hertzInterpretation * 100, durationInMs, volumeInterpretation);
 	}
 
 	public void setHertz(Formula hertz) {
