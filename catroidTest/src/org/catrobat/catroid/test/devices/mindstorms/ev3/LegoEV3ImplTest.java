@@ -40,6 +40,7 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 	ConnectionDataLogger logger;
 
 	private static final int PREFERENCES_SAVE_DELAY = 50;
+	private static final int BASIC_MESSAGE_BYTE_OFFSET = 5;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -63,7 +64,7 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 		ev3.initialise();
 		ev3.playTone(inputHz, durationInMs, volume);
 
-		byte[] setOutputState = logger.getNextSentMessage(0, 2);
+		byte[] setOutputState = logger.getNextSentMessage(0, BASIC_MESSAGE_BYTE_OFFSET);
 
 		assertEquals("Expected Hz not same as input Hz", (byte)expectedHz, setOutputState[2]);
 		assertEquals("Expected Hz not same as input Hz", (byte)(expectedHz >> 8), setOutputState[3]);
