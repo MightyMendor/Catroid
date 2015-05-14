@@ -56,18 +56,18 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 	public void testSimplePlayToneTest() {
 
-		int inputHz = 10000;
-		int expectedHz = 10000;
+		int inputHz = 18000;
+		int expectedHz = 18000;
 		int durationInMs = 3000;
 		int volume = 100;
 
 		ev3.initialise();
 		ev3.playTone(inputHz, durationInMs, volume);
 
-		byte[] setOutputState = logger.getNextSentMessage(0, BASIC_MESSAGE_BYTE_OFFSET);
+		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
-		assertEquals("Expected Hz not same as input Hz", (byte)expectedHz, setOutputState[2]);
-		assertEquals("Expected Hz not same as input Hz", (byte)(expectedHz >> 8), setOutputState[3]);
+		assertEquals("Expected Hz not same as input Hz", (byte)expectedHz, setOutputState[8]);
+		assertEquals("Expected Hz not same as input Hz", (byte)(expectedHz >> 8), setOutputState[9]);
 	}
 
 //	public void testPlayToneHzOverMaxValue() {
