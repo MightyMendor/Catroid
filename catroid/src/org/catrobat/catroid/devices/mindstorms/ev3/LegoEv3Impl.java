@@ -119,35 +119,11 @@ public class LegoEv3Impl implements LegoEV3{
 		command.append((byte) (durationInMs & 0x00FF));
 		command.append((byte) ((durationInMs & 0xFF00) >> 8));
 
-
-		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		// hard coded example from lego documentation:
-		// 01810282E80382E803
-
-//		command.append((byte) 0x01);
-//
-//		command.append((byte) 0x81);
-//		command.append((byte) 0x02); // volume lvl
-//
-//		command.append((byte) 0x82);
-//		command.append((byte) 0xE8); // freq 1000
-//		command.append((byte) 0x03); // freq 1000
-//
-//		command.append((byte) 0x82);
-//		command.append((byte) 0xE8); // duration 1000
-//		command.append((byte) 0x03); // duration 1000
-
-		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
 		Log.d("juc", "LegoEv3Impl | playTone | command = " + command.toHexString(command));
 
 		try {
-			//byte[] response = mindstormsConnection.sendAndReceive(command); // just for debugging, tone-command should not require a response
 			mindstormsConnection.send(command);
 			Log.d("juc", "LegoEv3Impl | playTone | command was sent");
-
-			//Log.d("juc", "LegoEv3Impl | playTone | response = " + response.toString() );
 		}
 		catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());

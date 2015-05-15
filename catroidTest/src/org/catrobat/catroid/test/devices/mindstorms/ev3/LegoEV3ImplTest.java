@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
@@ -40,7 +41,7 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 	ConnectionDataLogger logger;
 
 	private static final int PREFERENCES_SAVE_DELAY = 50;
-	private static final int BASIC_MESSAGE_BYTE_OFFSET = 5;
+	private static final int BASIC_MESSAGE_BYTE_OFFSET = 6;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -56,8 +57,8 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 	public void testSimplePlayToneTest() {
 
-		int inputHz = 18000;
-		int expectedHz = 18000;
+		int inputHz = 9000;
+		int expectedHz = 9000;
 		int durationInMs = 3000;
 		int volume = 100;
 
@@ -66,8 +67,23 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
-		assertEquals("Expected Hz not same as input Hz", (byte)expectedHz, setOutputState[8]);
-		assertEquals("Expected Hz not same as input Hz", (byte)(expectedHz >> 8), setOutputState[9]);
+		int offset = BASIC_MESSAGE_BYTE_OFFSET + 4; // 1 byte command, 2 bytes volume, 1 byte datatype
+
+		Log.d("juc", "byte 0: " + setOutputState[0]);
+		Log.d("juc", "byte 1: " + setOutputState[1]);
+		Log.d("juc", "byte 2: " + setOutputState[2]);
+		Log.d("juc", "byte 3: " + setOutputState[3]);
+		Log.d("juc", "byte 4: " + setOutputState[4]);
+		Log.d("juc", "byte 5: " + setOutputState[5]);
+		Log.d("juc", "byte 6: " + setOutputState[6]);
+		Log.d("juc", "byte 7: " + setOutputState[7]);
+		Log.d("juc", "byte 8: " + setOutputState[8]);
+		Log.d("juc", "byte 9: " + setOutputState[9]);
+		Log.d("juc", "byte 10: " + setOutputState[10]);
+		Log.d("juc", "byte 11: " + setOutputState[11]);
+
+		assertEquals("Expected Hz not same as input Hz", (byte) expectedHz, setOutputState[offset]);
+		assertEquals("Expected Hz not same as input Hz", (byte)(expectedHz >> 8), setOutputState[offset + 1]);
 	}
 
 //	public void testPlayToneHzOverMaxValue() {
