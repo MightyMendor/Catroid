@@ -137,4 +137,20 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		assertEquals("LastSentCommand Should be NULL", null, command);
 	}
+
+	public void testSimpleLED() {
+
+		int ledStatus = 0x04;
+		int expectedLedStatus = 0x04;
+
+		ev3.initialise();
+		ev3.setLed(ledStatus);
+
+		byte[] setOutputState = logger.getNextSentMessage(0, 2);
+
+		int offset = BASIC_MESSAGE_BYTE_OFFSET + 2; // 1 byte command, 1 byte datatype
+
+		assertEquals("Sent LED-Status doesn't match expected Status", (byte) expectedLedStatus, setOutputState[offset]);
+
+	}
 }
