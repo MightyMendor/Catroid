@@ -69,59 +69,66 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		int offset = BASIC_MESSAGE_BYTE_OFFSET + 4; // 1 byte command, 2 bytes volume, 1 byte datatype
 
-		Log.d("juc", "byte 0: " + setOutputState[0]);
-		Log.d("juc", "byte 1: " + setOutputState[1]);
-		Log.d("juc", "byte 2: " + setOutputState[2]);
-		Log.d("juc", "byte 3: " + setOutputState[3]);
-		Log.d("juc", "byte 4: " + setOutputState[4]);
-		Log.d("juc", "byte 5: " + setOutputState[5]);
-		Log.d("juc", "byte 6: " + setOutputState[6]);
-		Log.d("juc", "byte 7: " + setOutputState[7]);
-		Log.d("juc", "byte 8: " + setOutputState[8]);
-		Log.d("juc", "byte 9: " + setOutputState[9]);
-		Log.d("juc", "byte 10: " + setOutputState[10]);
-		Log.d("juc", "byte 11: " + setOutputState[11]);
+		assertEquals("Expected Hz not same as input Hz", (byte) expectedHz, setOutputState[offset]);
+		assertEquals("Expected Hz not same as input Hz", (byte)(expectedHz >> 8), setOutputState[offset + 1]);
+	}
+
+	public void testPlayToneHzOverMaxValue() {
+
+		// MaxHz = 10000;
+		int inputHz = 16000;
+		int expectedHz = 10000;
+		int durationInMs = 5000;
+		int volume = 100;
+
+		ev3.initialise();
+		ev3.playTone(inputHz, durationInMs, volume);
+
+		byte[] setOutputState = logger.getNextSentMessage(0, 2);
+
+		int offset = BASIC_MESSAGE_BYTE_OFFSET + 4; // 1 byte command, 2 bytes volume, 1 byte datatype
 
 		assertEquals("Expected Hz not same as input Hz", (byte) expectedHz, setOutputState[offset]);
 		assertEquals("Expected Hz not same as input Hz", (byte)(expectedHz >> 8), setOutputState[offset + 1]);
 	}
 
-//	public void testPlayToneHzOverMaxValue() {
-//
-//		// MaxHz = 14000;
-//		int inputHz = 16000;
-//		int expectedHz = 14000;
-//		int durationInMs = 5000;
-//
-//		nxt.initialise();
-//		nxt.playTone(inputHz, durationInMs);
-//
-//		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-//
-//		assertEquals("Expected Hz over maximum Value (max. Value = 14000)", (byte)expectedHz, setOutputState[2]);
-//		assertEquals("Expected Hz over maximum Value (max. Value = 14000)", (byte)(expectedHz >> 8), setOutputState[3]);
-//	}
-//
-//	public void testcheckDurationOfTone() {
-//
-//		int inputHz = 13000;
-//		int inputDurationInMs = 6000;
-//		int expectedDurationInMs = 6000;
-//
-//		nxt.initialise();
-//		nxt.playTone(inputHz, inputDurationInMs);
-//
-//		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-//
-//		assertEquals("Expected Duration not same as Input Duration", (byte)expectedDurationInMs, setOutputState[4]);
-//		assertEquals("Expected Duration not same as Input Duration", (byte)(expectedDurationInMs >> 8), setOutputState[5]);
-//	}
+	public void testCheckDurationOfTone() {
+
+		int inputHz = 9000;
+		int durationInMs = 2000;
+		int volume = 100;
+		int expectedDurationInMs = 2000;
+
+		ev3.initialise();
+		ev3.playTone(inputHz, durationInMs, volume);
+
+		byte[] setOutputState = logger.getNextSentMessage(0, 2);
+
+		int offset = BASIC_MESSAGE_BYTE_OFFSET + 7; // 1 byte command, 2 bytes volume, 3 bytes freq, 1 byte datatype
+
+		assertEquals("Expected duration not same as input", (byte) expectedDurationInMs, setOutputState[offset]);
+		assertEquals("Expected duration not same as input", (byte)(expectedDurationInMs >> 8), setOutputState[offset + 1]);
+	}
 
 	public void testWithZeroDuration() {
 
 		int inputHz = 13000;
 		int inputDurationInMs = 0;
 		int volume = 100;
+
+		ev3.initialise();
+		ev3.playTone(inputHz, inputDurationInMs, volume);
+
+		byte[] command = logger.getNextSentMessage(0, 2);
+
+		assertEquals("LastSentCommand Should be NULL", null, command);
+	}
+
+	public void testWithZeroVolume() {
+
+		int inputHz = 13000;
+		int inputDurationInMs = 0;
+		int volume = 0;
 
 		ev3.initialise();
 		ev3.playTone(inputHz, inputDurationInMs, volume);
