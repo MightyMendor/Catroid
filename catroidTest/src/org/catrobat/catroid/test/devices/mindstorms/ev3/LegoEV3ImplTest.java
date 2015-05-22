@@ -26,11 +26,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEv3Impl;
+import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 
 public class LegoEV3ImplTest extends AndroidTestCase {
 
@@ -50,7 +49,7 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 		applicationContext = this.getContext().getApplicationContext();
 		preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
 
-		ev3 = new LegoEv3Impl(this.applicationContext);
+		ev3 = new LegoEV3Impl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
 		ev3.setConnection(logger.getConnectionProxy());
 	}

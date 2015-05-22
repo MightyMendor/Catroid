@@ -26,7 +26,7 @@ import android.content.Context;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEv3Impl;
+import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
 
 public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
@@ -39,7 +39,7 @@ public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
 		}
 
 		if (service == BluetoothDevice.LEGO_EV3) {
-			return new LegoEv3Impl(applicationContext);
+			return new LegoEV3Impl(applicationContext);
 		}
 
 //        if (service == BTDeviceService.ALBERT) {

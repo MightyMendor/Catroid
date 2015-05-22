@@ -35,10 +35,10 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
 import java.util.UUID;
 
-public class LegoEv3Impl implements LegoEV3{
+public class LegoEV3Impl implements LegoEV3{
 
 	private static final UUID LEGO_EV3_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	private static final String TAG = LegoEv3Impl.class.getSimpleName();
+	private static final String TAG = LegoEV3Impl.class.getSimpleName();
 
 	private boolean isInitialized = false;
 
@@ -56,9 +56,8 @@ public class LegoEv3Impl implements LegoEV3{
 	//private EV3Sensor sensor2;
 	//private EV3Sensor sensor4;
 
-	public LegoEv3Impl(Context applicationContext) {
+	public LegoEV3Impl(Context applicationContext) {
 		this.context = applicationContext;
-		Log.d("juc", "LegoEv3Impl constructor");
 	}
 
 	public short getCommandCounter() {
@@ -68,7 +67,6 @@ public class LegoEv3Impl implements LegoEV3{
 	public void incCommandCounter() {
 		commandCounter++;
 	}
-
 
 	@Override
 	public String getName() {
@@ -80,11 +78,8 @@ public class LegoEv3Impl implements LegoEV3{
 		return BluetoothDevice.LEGO_EV3;
 	}
 
-	// TODO: bugfix: volume decrease by every use of brick. gl future juc....
 	@Override
 	public void playTone(int frequencyInHz, int durationInMs, int volumeInPercent) {
-
-		Log.d("juc", "LegoEv3Impl | playTone ");
 
 		if (durationInMs <= 0) {
 			return;
@@ -119,17 +114,14 @@ public class LegoEv3Impl implements LegoEV3{
 		command.append((byte) (durationInMs & 0x00FF));
 		command.append((byte) ((durationInMs & 0xFF00) >> 8));
 
-		Log.d("juc", "LegoEv3Impl | playTone | command = " + command.toHexString(command));
+		//Log.d("juc", "LegoEv3Impl | playTone | command = " + command.toHexString(command));
 
 		try {
 			mindstormsConnection.send(command);
-			Log.d("juc", "LegoEv3Impl | playTone | command was sent");
 		}
 		catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
-
-
 	}
 
 	@Override
@@ -174,13 +166,7 @@ public class LegoEv3Impl implements LegoEV3{
 
 		command.append((byte) 0x01); //cmd get_vBatt TODO: enum?
 
-
-
-
-
-
 	}
-
 
 	public void moveMotorStepsSpeed(EV3Motor motor, int chainLayer, int speed, int step1Tacho, int step2Techo, int step3Techo, boolean brake) {
 
@@ -199,8 +185,6 @@ public class LegoEv3Impl implements LegoEV3{
 		byte outputField = (byte) (motor.getOutputField() & motor2.getOutputField() & motor3.getOutputField());
 		moveMotorStepsSpeed(outputField, chainLayer, speed, step1Tacho, step2Techo, step3Techo, brake);
 	}
-
-//	public void moveAllMotorStepsSpeed(int)
 
 	public void moveMotorStepsSpeed(byte outputField, int chainLayer, int speed, int step1Tacho, int step2Tacho, int step3Tacho, boolean brake) {
 
@@ -228,8 +212,6 @@ public class LegoEv3Impl implements LegoEV3{
 
 		// I don't know why this parameter is just appended without control-byte in between... source : example from Lego Ev3 Communication Dev Kit 4.2.2
 		command.append((byte) (brake ? 0x01 : 0x00) );
-
-		Log.d("juc", "LegoEv3Impl | move Motor Step Speed | command = " + command.toHexString(command));
 
 		try {
 			mindstormsConnection.send(command);
@@ -267,19 +249,12 @@ public class LegoEv3Impl implements LegoEV3{
 		// I don't know why this parameter is just appended without control-byte in between... source : example from Lego Ev3 Communication Dev Kit 4.2.2
 		command.append((byte) (brake ? 0x01 : 0x00) );
 
-		Log.d("juc", "LegoEv3Impl | move Motor Step Speed | command = " + command.toHexString(command));
-
 		try {
 			mindstormsConnection.send(command);
 		}
 		catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
-
-
-	}
-
-	public void moveMotorTime(int port, int chainLayer, int speed, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake) {
 
 	}
 
