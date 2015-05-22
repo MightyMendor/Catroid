@@ -65,7 +65,6 @@ import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
-import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
@@ -315,13 +314,7 @@ public class CategoryBricksFactory {
 		List<Brick> legoEV3BrickList = new ArrayList<Brick>();
 
 		legoEV3BrickList.add(new LegoEv3SingleMotorMoveBrick(LegoEv3SingleMotorMoveBrick.Motor.MOTOR_A, BrickValues.LEGO_POWER, BrickValues.LEGO_DURATION));
-
-
-//		legoEV3BrickList.add(new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A,
-//				BrickValues.LEGO_ANGLE));
 		legoEV3BrickList.add(new LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
-		legoEV3BrickList.add(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A, LegoEv3MotorMoveBrick.Unit.DURATION_IN_SECONDS,
-				BrickValues.LEGO_POWER,	BrickValues.LEGO_STEP1, BrickValues.LEGO_STEP2, BrickValues.LEGO_STEP3));
 		legoEV3BrickList.add(new LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION/*, BrickValues.LEGO_VOLUME*/));
 		legoEV3BrickList.add(new LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN));
 

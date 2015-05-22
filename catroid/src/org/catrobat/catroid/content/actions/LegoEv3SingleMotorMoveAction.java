@@ -50,7 +50,7 @@ public class LegoEv3SingleMotorMoveAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		int powerValue;
-		int periodValue;
+		float periodValue;
 
 		try {
 			powerValue = power.interpretInteger(sprite);
@@ -66,7 +66,7 @@ public class LegoEv3SingleMotorMoveAction extends TemporalAction {
 		}
 
 		try {
-			periodValue = period.interpretInteger(sprite);
+			periodValue = period.interpretFloat(sprite);
 		} catch (InterpretationException interpretationException) {
 			periodValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -82,23 +82,21 @@ public class LegoEv3SingleMotorMoveAction extends TemporalAction {
 		switch (motorEnum) {
 			case MOTOR_A:
 				outputField = (byte) 0x01;
-				Log.d("juc", "SingleMotorMoveAction update | Motor A");
 				break;
 			case MOTOR_B:
 				outputField = (byte) 0x02;
-				Log.d("juc", "SingleMotorMoveAction update | Motor B");
 				break;
 			case MOTOR_C:
 				outputField = (byte) 0x04;
-				Log.d("juc", "SingleMotorMoveAction update | Motor C");
 				break;
 			case MOTOR_D:
 				outputField = (byte) 0x08;
-				Log.d("juc", "SingleMotorMoveAction update | Motor D");
 				break;
 		}
 
-		ev3.moveMotorTime(outputField, 0, powerValue, 0, periodValue * 1000, 0, true);
+		int periodValueInMs = (int) (periodValue * 1000);
+
+		ev3.moveMotorTime(outputField, 0, powerValue, 0, periodValueInMs, 0, true);
 
 	}
 

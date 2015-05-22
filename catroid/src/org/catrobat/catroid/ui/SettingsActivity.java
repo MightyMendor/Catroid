@@ -96,7 +96,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_LEGO_EV3_ENABLED) {
-			Log.d("juc", "settings-acticity: remove ev3 because feature not enabled");
 			CheckBoxPreference ev3Preference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
 			ev3Preference.setEnabled(false);
 			screen.removePreference(ev3Preference);

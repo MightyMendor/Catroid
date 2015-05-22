@@ -296,8 +296,6 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 	protected void createAndSetDeviceService() {
 		Class<BluetoothDevice> serviceType = (Class<BluetoothDevice>)getIntent().getSerializableExtra(DEVICE_TO_CONNECT);
 
-		Log.d("juc", "ConnectBluetoothDeviceActivity | createAndSetDeviceService: serviceType = " + serviceType.toString());
-
 		btDevice = getDeviceFactory().createDevice(serviceType, this.getApplicationContext());
 	}
 

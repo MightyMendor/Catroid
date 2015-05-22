@@ -59,7 +59,6 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	private NXTSensorService sensorService;
 
 	public LegoNXTImpl(Context applicationContext) {
-		Log.d("juc", "LegoNXTImpl | constructor");
 		this.context = applicationContext;
 	}
 

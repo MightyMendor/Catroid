@@ -114,8 +114,6 @@ public class LegoEV3Impl implements LegoEV3{
 		command.append((byte) (durationInMs & 0x00FF));
 		command.append((byte) ((durationInMs & 0xFF00) >> 8));
 
-		//Log.d("juc", "LegoEv3Impl | playTone | command = " + command.toHexString(command));
-
 		try {
 			mindstormsConnection.send(command);
 		}
@@ -165,25 +163,6 @@ public class LegoEV3Impl implements LegoEV3{
 		incCommandCounter();
 
 		command.append((byte) 0x01); //cmd get_vBatt TODO: enum?
-
-	}
-
-	public void moveMotorStepsSpeed(EV3Motor motor, int chainLayer, int speed, int step1Tacho, int step2Techo, int step3Techo, boolean brake) {
-
-		byte outputField = motor.getOutputField();
-		moveMotorStepsSpeed(outputField, chainLayer, speed, step1Tacho, step2Techo, step3Techo, brake);
-	}
-
-	public void moveMotorStepsSpeed(EV3Motor motor, EV3Motor motor2, int chainLayer, int speed, int step1Tacho, int step2Techo, int step3Techo, boolean brake) {
-
-		byte outputField = (byte) (motor.getOutputField() & motor2.getOutputField());
-		moveMotorStepsSpeed(outputField, chainLayer, speed, step1Tacho, step2Techo, step3Techo, brake);
-	}
-
-	public void moveMotorStepsSpeed(EV3Motor motor, EV3Motor motor2, EV3Motor motor3, int chainLayer, int speed, int step1Tacho, int step2Techo, int step3Techo, boolean brake) {
-
-		byte outputField = (byte) (motor.getOutputField() & motor2.getOutputField() & motor3.getOutputField());
-		moveMotorStepsSpeed(outputField, chainLayer, speed, step1Tacho, step2Techo, step3Techo, brake);
 	}
 
 	public void moveMotorStepsSpeed(byte outputField, int chainLayer, int speed, int step1Tacho, int step2Tacho, int step3Tacho, boolean brake) {
@@ -219,7 +198,6 @@ public class LegoEV3Impl implements LegoEV3{
 		catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
-
 	}
 
 	public void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake) {
@@ -255,7 +233,6 @@ public class LegoEV3Impl implements LegoEV3{
 		catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
-
 	}
 
 	public void setLed(int ledStatus) {
@@ -269,21 +246,16 @@ public class LegoEV3Impl implements LegoEV3{
 
 		command.append((byte) (ledStatus & 0xFF));
 
-		Log.d("juc", "LegoEv3Impl | set Led Status | command = " + command.toHexString(command));
-
 		try {
 			mindstormsConnection.send(command);
 		}
 		catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
-
 	}
 
 	@Override
 	public synchronized void initialise() {
-
-		Log.d("juc", "LegoEv3Inpl | initialise");
 
 		if (isInitialized) {
 			return;

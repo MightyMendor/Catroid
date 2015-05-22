@@ -106,7 +106,6 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick implements OnClick
 
 		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_ev3_single_motor_move_power_prototype_text_view);
 
-		Log.d("juc", "single motor brick, get prototype view");
 		textPower.setText(String.valueOf(BrickValues.LEGO_POWER));
 
 		Spinner motorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ev3_single_motor_move_spinner);
@@ -174,8 +173,6 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick implements OnClick
 		textDuration.setVisibility(View.GONE);
 		editDuration.setVisibility(View.VISIBLE);
 
-		Log.d("juc", "single motor brick, getview");
-
 		editDuration.setOnClickListener(this);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.ev3_single_motor_chooser,
@@ -208,8 +205,6 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick implements OnClick
 			}
 
 		});
-
-		Log.d("juc", "SingleMotorMoveBrick | motorEnum = " + motorEnum);
 
 		motorSpinner.setSelection(motorEnum.ordinal());
 
