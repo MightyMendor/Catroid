@@ -238,12 +238,12 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoEv3PlayToneAction legoEv3PlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds, Formula volumeInPercent) {
+	public static LegoEv3PlayToneAction legoEv3PlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds/*, Formula volumeInPercent*/) {
 		LegoEv3PlayToneAction action = action(LegoEv3PlayToneAction.class);
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
-		action.setVolumeInPercent(volumeInPercent);
+//		action.setVolumeInPercent(volumeInPercent);
 		return action;
 	}
 

@@ -124,19 +124,19 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 		assertEquals("LastSentCommand Should be NULL", null, command);
 	}
 
-	public void testWithZeroVolume() {
-
-		int inputHz = 13000;
-		int inputDurationInMs = 0;
-		int volume = 0;
-
-		ev3.initialise();
-		ev3.playTone(inputHz, inputDurationInMs, volume);
-
-		byte[] command = logger.getNextSentMessage(0, 2);
-
-		assertEquals("LastSentCommand Should be NULL", null, command);
-	}
+//	public void testWithZeroVolume() {
+//
+//		int inputHz = 13000;
+//		int inputDurationInMs = 0;
+//		int volume = 0;
+//
+//		ev3.initialise();
+//		ev3.playTone(inputHz, inputDurationInMs, volume);
+//
+//		byte[] command = logger.getNextSentMessage(0, 2);
+//
+//		assertEquals("LastSentCommand Should be NULL", null, command);
+//	}
 
 	public void testSimpleLED() {
 

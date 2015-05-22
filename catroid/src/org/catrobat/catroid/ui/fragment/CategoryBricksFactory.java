@@ -322,7 +322,7 @@ public class CategoryBricksFactory {
 		legoEV3BrickList.add(new LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
 		legoEV3BrickList.add(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A, LegoEv3MotorMoveBrick.Unit.DURATION_IN_SECONDS,
 				BrickValues.LEGO_POWER,	BrickValues.LEGO_STEP1, BrickValues.LEGO_STEP2, BrickValues.LEGO_STEP3));
-		legoEV3BrickList.add(new LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION, BrickValues.LEGO_VOLUME));
+		legoEV3BrickList.add(new LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION/*, BrickValues.LEGO_VOLUME*/));
 		legoEV3BrickList.add(new LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN));
 
 		return legoEV3BrickList;

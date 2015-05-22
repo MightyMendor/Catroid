@@ -65,23 +65,22 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
-		try {
-			volumeInterpretation = volumeInPercent.interpretInteger(sprite);
-		} catch (InterpretationException interpretationException) {
-			volumeInterpretation = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
+// 
+//		try {
+//			volumeInterpretation = volumeInPercent.interpretInteger(sprite);
+//		} catch (InterpretationException interpretationException) {
+//			volumeInterpretation = 0;
+//			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+//		}
 
 		LegoEV3 ev3 = btService.getDevice(BluetoothDevice.LEGO_EV3);
 		if (ev3 == null) {
-
-			Log.d("juc", "LegoEv3PlayToneAction | ev3 ==null");
 			return;
 		}
 
-		Log.d("juc", "LegoEv3PlayToneAction | playTone params herz=" + hertzInterpretation + " | duration=" + durationInterpretation + " | volume= " + volumeInterpretation);
-
 		int durationInMs = (int) (durationInterpretation * 1000);
+
+		volumeInterpretation = 100;
 
 		ev3.playTone(hertzInterpretation * 100, durationInMs, volumeInterpretation);
 	}
