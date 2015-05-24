@@ -29,7 +29,7 @@ import org.catrobat.catroid.devices.mindstorms.Mindstorms;
 
 public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 
-	public boolean isAlive();
+	boolean isAlive();
 
 	void playTone(int frequency, int duration, int volumeInPercent);
 
@@ -40,10 +40,10 @@ public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 
 	void stopAllMovements();
 
-	public void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake);
-	public void stopMotor(byte outputField, int chainLayer, boolean brake);
+	void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake);
+	void stopMotor(byte outputField, int chainLayer, boolean brake);
 
-	public void setLed(int ledStatus);
+	void setLed(int ledStatus);
 
 	//int getSensorValue(Sensors sensor);
 

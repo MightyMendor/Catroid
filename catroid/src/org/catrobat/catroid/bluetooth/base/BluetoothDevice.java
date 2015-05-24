@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.bluetooth.base;
 
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.stage.StageResourceInterface;
 
 import java.util.UUID;

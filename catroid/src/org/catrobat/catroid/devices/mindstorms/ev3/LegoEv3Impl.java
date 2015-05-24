@@ -282,10 +282,10 @@ public class LegoEV3Impl implements LegoEV3{
 
 		mindstormsConnection.init();
 
-		motorA = new EV3Motor(0, mindstormsConnection);
-		motorB = new EV3Motor(1, mindstormsConnection);
-		motorC = new EV3Motor(2, mindstormsConnection);
-		motorD = new EV3Motor(3, mindstormsConnection);
+		motorA = new EV3Motor(0);
+		motorB = new EV3Motor(1);
+		motorC = new EV3Motor(2);
+		motorD = new EV3Motor(3);
 
 		// TODO: Sensor Init
 		//assignSensorsToPorts();

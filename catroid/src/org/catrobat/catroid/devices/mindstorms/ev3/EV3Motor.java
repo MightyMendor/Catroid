@@ -23,21 +23,18 @@
 
 package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsMotor;
 
 
 public class EV3Motor implements MindstormsMotor {
 
-	private static final String TAG = EV3Motor.class.getSimpleName();
+	//private static final String TAG = EV3Motor.class.getSimpleName();
 
-	private int port;
+	//private int port;
 	private byte outputField;
-	private MindstormsConnection connection;
 
-	public EV3Motor(int port, MindstormsConnection connection) {
-		this.port = port;
-		this.connection = connection;
+	public EV3Motor(int port) {
+		//this.port = port;
 
 		switch(port) {
 			case 0:

@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.devices.mindstorms.ev3;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
@@ -36,7 +34,6 @@ import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 public class LegoEV3MotorTest extends AndroidTestCase {
 
 	private Context applicationContext;
-	private SharedPreferences preferences;
 
 	private LegoEV3 ev3;
 	ConnectionDataLogger logger;
@@ -48,7 +45,6 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		super.setUp();
 
 		applicationContext = this.getContext().getApplicationContext();
-		preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
 
 		ev3 = new LegoEV3Impl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();

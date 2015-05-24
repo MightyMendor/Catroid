@@ -59,6 +59,12 @@ public class LegoEv3MotorStopAction extends TemporalAction {
 			case MOTOR_D:
 				outputField = (byte) 0x08;
 				break;
+			case MOTOR_B_C:
+				outputField = (byte) 0x06;
+				break;
+			case ALL_MOTORS:
+				outputField = (byte) 0x0F;
+				break;
 		}
 
 		ev3.stopMotor(outputField, 0, true);

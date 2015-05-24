@@ -39,7 +39,7 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 
 	private Formula hertz;
 	private Formula durationInSeconds;
-	private Formula volumeInPercent;
+	//private Formula volumeInPercent;
 	private Sprite sprite;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
@@ -93,9 +93,9 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 		this.durationInSeconds = durationInSeconds;
 	}
 
-	public void setVolumeInPercent(Formula volumeInPercent) {
-		this.volumeInPercent = volumeInPercent;
-	}
+//	public void setVolumeInPercent(Formula volumeInPercent) {
+//		this.volumeInPercent = volumeInPercent;
+//	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;

@@ -64,13 +64,6 @@
         <item>@string/ev3_sensor_color</item>
         <item>@string/ev3_sensor_infrared</item>
     </string-array>
-    <string-array name="ev3_motor_chooser" >
-        <item >@string/ev3_motor_a</item >
-        <item >@string/ev3_motor_b</item >
-        <item >@string/ev3_motor_c</item >
-        <item >@string/ev3_motor_d</item >
-        <item >@string/ev3_motor_b_and_c</item >
-    </string-array >
     <string-array name="ev3_stop_motor_chooser" >
         <item >@string/ev3_motor_a</item >
         <item >@string/ev3_motor_b</item >
@@ -96,12 +89,6 @@
         <item >@string/ev3_led_status_green_pulse</item>
         <item >@string/ev3_led_status_red_pulse</item>
         <item >@string/ev3_led_status_orange_pulse</item>
-    </string-array>
-
-    <string-array name="ev3_move_motor_unit_chooser" >
-        <item >@string/ev3_motor_time_in_seconds</item>
-        <item >@string/ev3_motor_rotations</item>
-        <item >@string/ev3_motor_degree</item>
     </string-array>
 
     <!-- User Brick UI Data Editor Fragment -->
