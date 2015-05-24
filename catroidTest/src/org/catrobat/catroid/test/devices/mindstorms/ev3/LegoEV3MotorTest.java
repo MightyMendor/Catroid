@@ -90,4 +90,18 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		assertEquals("Unused StepTime 3 was not 0", (byte) expectedTime3, setOutputState[offset]);
 		assertEquals("Unused StepTime 3 was not 0", (byte) (expectedTime3 >> 8), setOutputState[offset + 1]);
 	}
+
+	public void testStopMotorTest() {
+		byte outputField = (byte) 0x01;
+		byte expectedOutputField = (byte) 0x01;
+
+		ev3.initialise();
+		ev3.stopMotor(outputField, 0, true);
+
+		byte[] setOutputState = this.logger.getNextSentMessage(0, 2);
+
+		int offset = BASIC_MESSAGE_BYTE_OFFSET + 1;
+
+		assertEquals("Expected OutputField(Motor) doesn't match input", expectedOutputField, setOutputState[offset]);
+	}
 }

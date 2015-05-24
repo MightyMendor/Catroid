@@ -235,6 +235,25 @@ public class LegoEV3Impl implements LegoEV3{
 		}
 	}
 
+	public void stopMotor(byte outputField, int chainLayer, boolean brake) {
+
+		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_STOP);
+		incCommandCounter();
+
+		command.append((byte) chainLayer);
+
+		command.append(outputField);
+
+		command.append((byte) (brake ? 0x01 : 0x00) );
+
+		try {
+			mindstormsConnection.send(command);
+		}
+		catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
+	}
+
 	public void setLed(int ledStatus) {
 
 		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_UI_WRITE);
@@ -292,10 +311,8 @@ public class LegoEV3Impl implements LegoEV3{
 
 	@Override
 	public void stopAllMovements() {
-		motorA.stop();
-		motorB.stop();
-		motorC.stop();
-		motorD.stop();
+
+		stopMotor((byte)0x0F, 0, true);
 	}
 
 	@Override

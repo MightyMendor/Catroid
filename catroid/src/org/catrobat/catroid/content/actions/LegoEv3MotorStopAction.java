@@ -44,23 +44,24 @@ public class LegoEv3MotorStopAction extends TemporalAction {
 			return;
 		}
 
+		byte outputField = (byte) 0x00;
+
 		switch (motorEnum) {
 			case MOTOR_A:
-				ev3.getMotorA().stop();
+				outputField = (byte) 0x01;
 				break;
 			case MOTOR_B:
-				ev3.getMotorB().stop();
+				outputField = (byte) 0x02;
 				break;
 			case MOTOR_C:
-				ev3.getMotorC().stop();
+				outputField = (byte) 0x04;
 				break;
 			case MOTOR_D:
-				ev3.getMotorD().stop();
-				break;
-			case ALL_MOTORS:
-				ev3.stopAllMovements();
+				outputField = (byte) 0x08;
 				break;
 		}
+
+		ev3.stopMotor(outputField, 0, true);
 	}
 
 	public void setMotorEnum(Motor motorEnum) {
