@@ -553,8 +553,9 @@
 
 
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">Set NXT motor speed</string>
+    <string name="nxt_brick_motor_move">Set NXT motor</string>
     <string name="nxt_motor_speed_to">to</string>
+    <string name="nxt_motor_percent_speed">% speed</string>
     <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
     <string name="nxt_motor_move_by">by</string>
     <string name="nxt_motor_stop">Stop NXT motor</string>
