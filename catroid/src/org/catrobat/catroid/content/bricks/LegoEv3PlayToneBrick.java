@@ -56,7 +56,7 @@ public class LegoEv3PlayToneBrick extends FormulaBrick implements OnClickListene
 		//addAllowedBrickField(BrickField.LEGO_EV3_VOLUME);
 	}
 
-	public LegoEv3PlayToneBrick(int frequencyValue, int durationValue/*, int volumeValue*/) {
+	public LegoEv3PlayToneBrick(int frequencyValue, float durationValue/*, int volumeValue*/) {
 		initializeBrickFields(new Formula(frequencyValue), new Formula(durationValue)/*, new Formula(volumeValue)*/);
 	}
 

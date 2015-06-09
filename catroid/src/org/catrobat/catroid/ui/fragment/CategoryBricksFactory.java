@@ -305,7 +305,7 @@ public class CategoryBricksFactory {
 		legoNXTBrickList.add(new LegoNxtMotorStopBrick(LegoNxtMotorStopBrick.Motor.MOTOR_A));
 		legoNXTBrickList.add(new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_SPEED));
-		legoNXTBrickList.add(new LegoNxtPlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION));
+		legoNXTBrickList.add(new LegoNxtPlayToneBrick(BrickValues.LEGO_FREQUENCY, (int) BrickValues.LEGO_DURATION));
 
 		return legoNXTBrickList;
 	}
@@ -313,7 +313,8 @@ public class CategoryBricksFactory {
 	private List<Brick> setupLegoEv3CategoryList() {
 		List<Brick> legoEV3BrickList = new ArrayList<Brick>();
 
-		legoEV3BrickList.add(new LegoEv3SingleMotorMoveBrick(LegoEv3SingleMotorMoveBrick.Motor.MOTOR_A, BrickValues.LEGO_POWER, BrickValues.LEGO_DURATION));
+		legoEV3BrickList.add(new LegoEv3SingleMotorMoveBrick(LegoEv3SingleMotorMoveBrick.Motor.MOTOR_A,
+				BrickValues.LEGO_POWER, BrickValues.LEGO_DURATION));
 		legoEV3BrickList.add(new LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
 		legoEV3BrickList.add(new LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION/*, BrickValues.LEGO_VOLUME*/));
 		legoEV3BrickList.add(new LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN));

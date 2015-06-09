@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class LegoEv3SingleMotorMoveBrick extends FormulaBrick implements OnClickListener {
@@ -65,7 +66,7 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick implements OnClick
 		addAllowedBrickField(BrickField.LEGO_EV3_PERIOD_IN_SECONDS);
 	}
 
-	public LegoEv3SingleMotorMoveBrick(Motor motor, int powerValue, int durationValue) {
+	public LegoEv3SingleMotorMoveBrick(Motor motor, int powerValue, float durationValue) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 
@@ -119,7 +120,9 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick implements OnClick
 		motorSpinner.setSelection(motorEnum.ordinal());
 
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_ev3_single_motor_move_period_prototype_text_view);
-		textDuration.setText(String.valueOf(BrickValues.LEGO_DURATION));
+		NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
+		nf.setMinimumFractionDigits(1);
+		textDuration.setText(nf.format(BrickValues.LEGO_DURATION));
 
 		return prototypeView;
 	}
