@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_ev3_set_led_layout"
-        style="@style/BrickContainer.Lego.Big"
+        style="@style/BrickContainer.Lego.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -58,8 +58,8 @@
             android:layout_height="wrap_content"
             app:layout_newLine="true"
             android:clickable="false"
-            android:focusable="false" />
-
+            android:focusable="false" >
+        </Spinner>
 
     </org.catrobat.catroid.ui.BrickLayout >
 
