@@ -20,19 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.devices.mindstorms;
 
-public interface MindstormsConnection {
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-	void init();
-	boolean isConnected();
-	void disconnect();
+import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 
-	byte[] sendAndReceive(MindstormsCommand command);
+public class EV3InfraredSensor extends EV3Sensor {
 
-	void send(MindstormsCommand command);
+	public static final String TAG = EV3InfraredSensor.class.getSimpleName();
+	private static final int DEFAULT_VALUE = 50;
 
-	short getCommandCounter();
+	public EV3InfraredSensor(int port, MindstormsConnection connection) {
+		// IR MODE0 is the proximity-mode
+		super(port, EV3SensorType.EV3_INFRARED, EV3SensorMode.MODE0, connection);
+		lastValidValue = DEFAULT_VALUE;
+	}
 
-	void incCommandCounter();
+	@Override
+	public int getValue() {
+		return getPercentValue();
+	}
 }

@@ -20,19 +20,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.devices.mindstorms;
 
-public interface MindstormsConnection {
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-	void init();
-	boolean isConnected();
-	void disconnect();
+import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
-	byte[] sendAndReceive(MindstormsCommand command);
+public class EV3SensorFactory {
 
-	void send(MindstormsCommand command);
+	private MindstormsConnection connection;
 
-	short getCommandCounter();
+	public EV3SensorFactory(MindstormsConnection connection) {
+		this.connection = connection;
+	}
 
-	void incCommandCounter();
+	public EV3Sensor create(EV3Sensor.Sensor sensorType, int port) {
+
+		switch (sensorType) {
+			case INFRARED:
+				return new EV3InfraredSensor(port, connection);
+			default:
+				throw new MindstormsException("No valid sensor found!"); // Should never occur
+		}
+	}
 }

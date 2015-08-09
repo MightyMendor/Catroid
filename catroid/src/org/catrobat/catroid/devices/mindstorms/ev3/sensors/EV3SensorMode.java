@@ -21,28 +21,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.mindstorms.ev3;
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-public enum EV3CommandParamByteCode {
-	PARAM_FORMAT_SHORT(0x00), PARAM_FORMAT_LONG(0x80),
+public enum EV3SensorMode {
+	MODE0(0x00), MODE1(0x01), MODE2(0x02), MODE3(0x03),
+	MODE4(0x04), MODE5(0x05), MODE6(0x06), MODE7(0x07);
 
-	PARAM_TYPE_CONSTANT(0x00), PARAM_TYPE_VARIABLE(0x40),
+	private int sensorModeValue;
 
-	PARAM_CONST_TYPE_VALUE(0x00), PARAM_CONST_TYPE_LABEL(0x20),
-
-	PARAM_VARIABLE_SCOPE_LOCAL(0x00), PARAM_VARIABLE_SCOPE_GLOBAL(0x20),
-
-	PARAM_FOLLOW_ONE_BYTE(0x01), PARAM_FOLLOW_TWO_BYTE(0x02),
-	PARAM_FOLLOW_FOUR_BYTE(0x03),
-	PARAM_FOLLOW_TERMINATED(0x00), PARAM_FOLLOW_TERMINATED2(0x04);
-
-	private int commandParamByteCode;
-
-	private EV3CommandParamByteCode(int commandParamByteCode) {
-		this.commandParamByteCode = commandParamByteCode;
+	EV3SensorMode(int sensorModeValue) {
+		this.sensorModeValue = sensorModeValue;
 	}
 
 	public byte getByte() {
-		return (byte) commandParamByteCode;
+		return (byte) sensorModeValue;
 	}
 }
