@@ -21,35 +21,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.mindstorms.ev3;
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.devices.mindstorms.Mindstorms;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
-import org.catrobat.catroid.formulaeditor.Sensors;
+public enum EV3SensorType {
+	NO_SENSOR(0x00), NXT_TOUCH(0x01), NXT_LIGHT(0x02),
+	NXT_SOUND(0x03), NXT_COLOR(0x04), NXT_ULTRASONIC(0x05),
+	NXT_TEMPERATURE(0x06),
 
-public interface LegoEV3 extends Mindstorms, BluetoothDevice {
+	EV3_LARGE_MOTOR(0x07), EV3_MEDIUM_MOTOR(0x08),
+	EV3_TOUCH(0x10), EV3_COLOR(0x1D), EV3_ULTRASONIC(0x1E),
+	EV3_GYRO(0x20), EV3_INFRARED(0x21),
 
-	boolean isAlive();
+	ENERGY_METER(0x63), IIC(0x64);
 
-	void playTone(int frequency, int duration, int volumeInPercent);
+	private int sensorTypeValue;
 
-	EV3Motor getMotorA();
-	EV3Motor getMotorB();
-	EV3Motor getMotorC();
-	EV3Motor getMotorD();
+	EV3SensorType(int sensorTypeValue) {
+		this.sensorTypeValue = sensorTypeValue;
+	}
 
-	void stopAllMovements();
-
-	void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake);
-	void stopMotor(byte outputField, int chainLayer, boolean brake);
-
-	void setLed(int ledStatus);
-
-	int getSensorValue(Sensors sensor);
-
-	MindstormsSensor getSensor1();
-	MindstormsSensor getSensor2();
-	MindstormsSensor getSensor3();
-	MindstormsSensor getSensor4();
+	public byte getByte() {
+		return (byte) sensorTypeValue;
+	}
 }

@@ -31,17 +31,19 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
+import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorService;
+import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.UUID;
 
-public class LegoEV3Impl implements LegoEV3 {
+public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedListener {
 
 	private static final UUID LEGO_EV3_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private static final String TAG = LegoEV3Impl.class.getSimpleName();
 
 	private boolean isInitialized = false;
-
-	private short commandCounter = 1;
 
 	protected MindstormsConnection mindstormsConnection;
 	protected Context context;
@@ -51,20 +53,15 @@ public class LegoEV3Impl implements LegoEV3 {
 	private EV3Motor motorC;
 	private EV3Motor motorD;
 
-	//private EV3Sensor sensor1;
-	//private EV3Sensor sensor2;
-	//private EV3Sensor sensor4;
+	private EV3Sensor sensor1;
+	private EV3Sensor sensor2;
+	private EV3Sensor sensor3;
+	private EV3Sensor sensor4;
+
+	private EV3SensorService sensorService;
 
 	public LegoEV3Impl(Context applicationContext) {
 		this.context = applicationContext;
-	}
-
-	public short getCommandCounter() {
-		return commandCounter;
-	}
-
-	public void incCommandCounter() {
-		commandCounter++;
 	}
 
 	@Override
@@ -93,8 +90,8 @@ public class LegoEV3Impl implements LegoEV3 {
 			volumeInPercent = 100;
 		}
 
-		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_SOUND);
-		incCommandCounter();
+		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_SOUND);
+		mindstormsConnection.incCommandCounter();
 
 		command.append((byte) 0x01); //cmd Play_TONE. TODO: enum?
 
@@ -138,6 +135,11 @@ public class LegoEV3Impl implements LegoEV3 {
 	}
 
 	@Override
+	public void onSensorChanged() {
+		assignSensorsToPorts();
+	}
+
+	@Override
 	public void setConnection(BluetoothConnection btConnection) {
 		this.mindstormsConnection = new MindstormsConnectionImpl(btConnection);
 	}
@@ -154,16 +156,16 @@ public class LegoEV3Impl implements LegoEV3 {
 
 	private void sendKeepAlive() throws MindstormsException {
 
-		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY, 0, 0, EV3CommandOpCode.OP_UI_READ);
-		incCommandCounter();
+		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY, 0, 0, EV3CommandOpCode.OP_UI_READ);
+		mindstormsConnection.incCommandCounter();
 
 		command.append((byte) 0x01); //cmd get_vBatt TODO: enum?
 	}
 
 	public void moveMotorStepsSpeed(byte outputField, int chainLayer, int speed, int step1Tacho, int step2Tacho, int step3Tacho, boolean brake) {
 
-		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_STEP_SPEED);
-		incCommandCounter();
+		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_STEP_SPEED);
+		mindstormsConnection.incCommandCounter();
 
 		command.append((byte) chainLayer);
 
@@ -196,8 +198,8 @@ public class LegoEV3Impl implements LegoEV3 {
 
 	public void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake) {
 
-		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_TIME_POWER);
-		incCommandCounter();
+		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_TIME_POWER);
+		mindstormsConnection.incCommandCounter();
 
 		command.append((byte) chainLayer);
 
@@ -230,8 +232,8 @@ public class LegoEV3Impl implements LegoEV3 {
 
 	public void stopMotor(byte outputField, int chainLayer, boolean brake) {
 
-		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_STOP);
-		incCommandCounter();
+		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_STOP);
+		mindstormsConnection.incCommandCounter();
 
 		command.append((byte) chainLayer);
 
@@ -248,8 +250,8 @@ public class LegoEV3Impl implements LegoEV3 {
 
 	public void setLed(int ledStatus) {
 
-		EV3Command command = new EV3Command(getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_UI_WRITE);
-		incCommandCounter();
+		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_UI_WRITE);
+		mindstormsConnection.incCommandCounter();
 
 		command.append((byte) 0x1B); //cmd LED TODO: enum?
 
@@ -262,6 +264,63 @@ public class LegoEV3Impl implements LegoEV3 {
 		} catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
+	}
+
+	@Override
+	public int getSensorValue(Sensors sensor) {
+		switch (sensor) {
+			case EV3_SENSOR_1:
+				if (getSensor1() == null) {
+					return 0;
+				}
+				return getSensor1().getLastSensorValue();
+			case EV3_SENSOR_2:
+				if (getSensor2() == null) {
+					return 0;
+				}
+				return getSensor2().getLastSensorValue();
+			case EV3_SENSOR_3:
+				if (getSensor3() == null) {
+					return 0;
+				}
+				return getSensor3().getLastSensorValue();
+			case EV3_SENSOR_4:
+				if (getSensor4() == null) {
+					return 0;
+				}
+				return getSensor4().getLastSensorValue();
+		}
+
+		return -1;
+	}
+
+	@Override
+	public MindstormsSensor getSensor1() {
+		return sensor1;
+	}
+
+	@Override
+	public MindstormsSensor getSensor2() {
+		return sensor2;
+	}
+
+	@Override
+	public MindstormsSensor getSensor3() {
+		return sensor3;
+	}
+
+	@Override
+	public MindstormsSensor getSensor4() {
+		return sensor4;
+	}
+
+	private EV3SensorService getSensorService() {
+		if (sensorService == null) {
+			sensorService = new EV3SensorService(context, mindstormsConnection);
+			sensorService.registerOnSensorChangedListener(this);
+		}
+
+		return sensorService;
 	}
 
 	@Override
@@ -278,26 +337,36 @@ public class LegoEV3Impl implements LegoEV3 {
 		motorC = new EV3Motor(2);
 		motorD = new EV3Motor(3);
 
-		// TODO: Sensor Init
-		//assignSensorsToPorts();
+		assignSensorsToPorts();
 
 		isInitialized = true;
+	}
+
+	private synchronized void assignSensorsToPorts() {
+		EV3SensorService sensorService = getSensorService();
+
+		sensor1 = sensorService.createSensor1();
+		sensor2 = sensorService.createSensor2();
+		sensor3 = sensorService.createSensor3();
+		sensor4 = sensorService.createSensor4();
 	}
 
 	@Override
 	public void start() {
 		initialise();
-		//sensorService.resumeSensorUpdate();
+		assignSensorsToPorts();
+		sensorService.resumeSensorUpdate();
 	}
 
 	@Override
 	public void pause() {
-		//stopAllMovements();
-		//sensorService.pauseSensorUpdate();
+		stopAllMovements();
+		sensorService.pauseSensorUpdate();
 	}
 
 	@Override
 	public void destroy() {
+		sensorService.deactivateAllSensors(mindstormsConnection);
 	}
 
 	@Override

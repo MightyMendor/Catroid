@@ -21,35 +21,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.mindstorms.ev3;
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.devices.mindstorms.Mindstorms;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
-import org.catrobat.catroid.formulaeditor.Sensors;
+public enum EV3SensorMode {
+	MODE0(0x00), MODE1(0x01), MODE2(0x02), MODE3(0x03),
+	MODE4(0x04), MODE5(0x05), MODE6(0x06), MODE7(0x07);
 
-public interface LegoEV3 extends Mindstorms, BluetoothDevice {
+	private int sensorModeValue;
 
-	boolean isAlive();
+	EV3SensorMode(int sensorModeValue) {
+		this.sensorModeValue = sensorModeValue;
+	}
 
-	void playTone(int frequency, int duration, int volumeInPercent);
-
-	EV3Motor getMotorA();
-	EV3Motor getMotorB();
-	EV3Motor getMotorC();
-	EV3Motor getMotorD();
-
-	void stopAllMovements();
-
-	void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake);
-	void stopMotor(byte outputField, int chainLayer, boolean brake);
-
-	void setLed(int ledStatus);
-
-	int getSensorValue(Sensors sensor);
-
-	MindstormsSensor getSensor1();
-	MindstormsSensor getSensor2();
-	MindstormsSensor getSensor3();
-	MindstormsSensor getSensor4();
+	public byte getByte() {
+		return (byte) sensorModeValue;
+	}
 }

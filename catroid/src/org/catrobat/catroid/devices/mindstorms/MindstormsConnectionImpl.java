@@ -37,6 +37,8 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 
 	private boolean isConnected = false;
 
+	private short commandCounter = 1;
+
 	public MindstormsConnectionImpl(BluetoothConnection btConnection) {
 		this.bluetoothConnection = btConnection;
 	}
@@ -94,6 +96,16 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 		} catch (IOException e) {
 			throw new MindstormsException(e, "Error on message send.");
 		}
+	}
+
+	@Override
+	public short getCommandCounter() {
+		return commandCounter;
+	}
+
+	@Override
+	public void incCommandCounter() {
+		commandCounter++;
 	}
 
 	protected byte[] receive() {
