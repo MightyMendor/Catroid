@@ -69,6 +69,8 @@
         <item>@string/ev3_no_sensor</item>
         <item>@string/ev3_sensor_touch</item>
         <item>@string/ev3_sensor_color</item>
+        <item>@string/ev3_sensor_color_ambient</item>
+        <item>@string/ev3_sensor_color_reflected</item>
         <item>@string/ev3_sensor_infrared</item>
     </string-array>
 
