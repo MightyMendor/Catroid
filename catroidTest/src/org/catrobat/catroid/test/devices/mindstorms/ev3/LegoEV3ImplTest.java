@@ -49,6 +49,13 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 		ev3.setConnection(logger.getConnectionProxy());
 	}
 
+	@Override
+	protected void tearDown() throws Exception {
+		ev3.disconnect();
+		logger.disconnectAndDestroy();
+		super.tearDown();
+	}
+
 	public void testSimplePlayToneTest() {
 
 		int inputHz = 9000;

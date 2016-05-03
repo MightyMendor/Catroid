@@ -25,17 +25,23 @@ package org.catrobat.catroid.test.devices.mindstorms.ev3;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.common.bluetooth.models.MindstormsEV3TestModel;
+import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
+import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 
 public class LegoEV3ImplTestWithModel extends AndroidTestCase {
 
+	private static final String TAG = LegoEV3ImplTestWithModel.class.getSimpleName();
+
 	private LegoEV3 ev3;
 	private MindstormsEV3TestModel ev3TestModel;
 	ConnectionDataLogger logger;
+	private MindstormsConnection mindstormsConnection;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -48,17 +54,33 @@ public class LegoEV3ImplTestWithModel extends AndroidTestCase {
 		ev3 = new LegoEV3Impl(applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLoggerWithDeviceModel(ev3TestModel);
 		ev3.setConnection(logger.getConnectionProxy());
+
+		this.mindstormsConnection = new MindstormsConnectionImpl(logger.getConnectionProxy());
+		mindstormsConnection.init();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		ev3.disconnect();
-		logger.disconnectAndDestroy();
-		super.tearDown();
-	}
+	public void testKeepAlive() {
+		int expectedKeepAliveTime = 5; // defined in LegoEV3Impl
 
-	public void testGetBatteryLevel() {
-		assertFalse("placeholder! ", true);
-		// TODO CAT-1414
+		ev3.initialise();
+		ev3.isAlive();
+
+		boolean timeOut = false;
+		int timer = 0;
+
+		while (!ev3TestModel.isKeepAliveSet() && !timeOut) {
+			try {
+				Thread.sleep(50);
+				timer += 50;
+			} catch (InterruptedException e) {
+				Log.w(TAG, "Sleep was interrupted", e);
+			}
+
+			if (timer >= 8000) {
+				timeOut = true;
+			}
+		}
+
+		assertEquals("Expected keep alive time deosn't match", expectedKeepAliveTime, ev3TestModel.getKeepAliveTime());
 	}
 }

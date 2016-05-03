@@ -54,6 +54,13 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		ev3.setConnection(logger.getConnectionProxy());
 	}
 
+	@Override
+	protected void tearDown() throws Exception {
+		ev3.disconnect();
+		logger.disconnectAndDestroy();
+		super.tearDown();
+	}
+
 	public void testSingleMotorMoveTest() {
 		int inputPower = -70;
 		int timeInMs = 1500;

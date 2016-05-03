@@ -71,6 +71,7 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		ev3.disconnect();
 		mindstormsConnection.disconnect();
 		logger.disconnectAndDestroy();
+		ev3TestModel.stop();
 		super.tearDown();
 	}
 
