@@ -57,8 +57,29 @@ public class LegoEV3ImplTestWithModel extends AndroidTestCase {
 		super.tearDown();
 	}
 
-	public void testGetBatteryLevel() {
-		assertFalse("placeholder! ", true);
-		// TODO CAT-1414
+	public void testKeepAlive() {
+		int expectedKeepAliveTime = 5; // defined in LegoEV3Impl
+
+		ev3.initialise();
+		ev3.isAlive();
+
+		boolean timeOut = false;
+		int timer = 0;
+
+		while (!ev3TestModel.isKeepAliveSet() && !timeOut)
+		{
+			try {
+				Thread.sleep(50);
+				timer += 50;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			if (timer >= 10000) {
+				timeOut = true;
+			}
+		}
+
+		assertEquals("Expected keep alive time deosn't match", expectedKeepAliveTime, ev3TestModel.getKeepAliveTime());
 	}
 }
